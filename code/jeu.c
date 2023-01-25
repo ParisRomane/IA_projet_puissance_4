@@ -40,7 +40,6 @@ typedef struct {
 	// TODO: à compléter par la définition d'un coup 
 
 	/* par exemple, pour morpion: */
-	int ligne;
 	int colonne;
 
 } Coup;
@@ -107,14 +106,13 @@ void afficheJeu(Etat * etat) {
 
 // Nouveau coup 
 // TODO: adapter la liste de paramètres au jeu
-Coup * nouveauCoup( int i, int j ) {
+Coup * nouveauCoup(int i) {
 	Coup * coup = (Coup *)malloc(sizeof(Coup));
 	
 	// TODO: à compléter avec la création d'un nouveau coup
 	
 	/* par exemple : */
-	coup->ligne = i;
-	coup->colonne = j;
+	coup->colonne = i;
 	
 	return coup;
 }
@@ -125,13 +123,11 @@ Coup * demanderCoup () {
 	// TODO...
 
 	/* par exemple : */
-	int i,j;
-	printf("\n quelle ligne ? ") ;
-	scanf("%d",&i); 
+	int i;
 	printf(" quelle colonne ? ") ;
-	scanf("%d",&j); 
+	scanf("%d",&i);
 	
-	return nouveauCoup(i,j);
+	return nouveauCoup(i);
 }
 
 // Modifier l'état en jouant un coup 
@@ -141,10 +137,10 @@ int jouerCoup( Etat * etat, Coup * coup ) {
 	// TODO: à compléter
 	
 	/* par exemple : */
-	if ( etat->plateau[coup->ligne][coup->colonne] != ' ' )
+	if ( etat->plateau[0][coup->colonne] != ' ' )
 		return 0;
 	else {
-		etat->plateau[coup->ligne][coup->colonne] = etat->joueur ? 'O' : 'X';
+		etat->plateau[0][coup->colonne] = etat->joueur ? 'O' : 'X';
 		
 		// à l'autre joueur de jouer
 		etat->joueur = AUTRE_JOUEUR(etat->joueur); 	
@@ -168,7 +164,7 @@ Coup ** coups_possibles( Etat * etat ) {
 	for(i=0; i < 7; i++) {
 		for (j=0; j < 6; j++) {
 			if ( etat->plateau[i][j] == ' ' ) {
-				coups[k] = nouveauCoup(i,j); 
+				coups[k] = nouveauCoup(i); 
 				k++;
 			}
 		}
