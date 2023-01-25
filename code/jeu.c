@@ -31,7 +31,7 @@ typedef struct EtatSt {
 	// TODO: à compléter par la définition de l'état du jeu
 
 	/* par exemple, pour morpion: */
-	char plateau[3][3];	
+	char plateau[6][7];	
 
 } Etat;
 
@@ -56,8 +56,8 @@ Etat * copieEtat( Etat * src ) {
 	
 	/* par exemple : */
 	int i,j;	
-	for (i=0; i< 3; i++)
-		for ( j=0; j<3; j++)
+	for (i=0; i< 6; i++)
+		for ( j=0; j<7; j++)
 			etat->plateau[i][j] = src->plateau[i][j];
 	
 
@@ -73,8 +73,8 @@ Etat * etat_initial( void ) {
 	
 	/* par exemple : */
 	int i,j;	
-	for (i=0; i< 3; i++)
-		for ( j=0; j<3; j++)
+	for (i=0; i< 6; i++)
+		for ( j=0; j<7; j++)
 			etat->plateau[i][j] = ' ';
 	
 	return etat;
@@ -88,18 +88,18 @@ void afficheJeu(Etat * etat) {
 	/* par exemple : */
 	int i,j;
 	printf("   |");
-	for ( j = 0; j < 3; j++) 
+	for ( j = 0; j < 7; j++) 
 		printf(" %d |", j);
 	printf("\n");
-	printf("----------------");
+	printf("--------------------------------");
 	printf("\n");
 	
-	for(i=0; i < 3; i++) {
+	for(i=0; i < 6; i++) {
 		printf(" %d |", i);
-		for ( j = 0; j < 3; j++) 
+		for ( j = 0; j < 7; j++) 
 			printf(" %c |", etat->plateau[i][j]);
 		printf("\n");
-		printf("----------------");
+		printf("--------------------------------");
 		printf("\n");
 	}
 }
@@ -165,8 +165,8 @@ Coup ** coups_possibles( Etat * etat ) {
 	
 	/* par exemple */
 	int i,j;
-	for(i=0; i < 3; i++) {
-		for (j=0; j < 3; j++) {
+	for(i=0; i < 7; i++) {
+		for (j=0; j < 6; j++) {
 			if ( etat->plateau[i][j] == ' ' ) {
 				coups[k] = nouveauCoup(i,j); 
 				k++;
@@ -408,3 +408,4 @@ int main(void) {
 		printf( "** BRAVO, l'ordinateur a perdu  **\n");
 	return 0;
 }
+
