@@ -1,7 +1,7 @@
 #include "structs.h"
 
-#define HEIGHT 7
-#define WIDTH 6
+#define HEIGHT 6
+#define WIDTH 7
 
 class State{
 

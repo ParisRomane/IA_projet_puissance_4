@@ -5,14 +5,13 @@ bool info;
 
 void print_state(State state){
     std::cout << "---------------" << std::endl;
-    for(int col = 0; col < WIDTH; col++){
+    for(int ligne = 0; ligne < HEIGHT; ligne++){
         std::cout << "|";
-        for(int ligne = 0; ligne < HEIGHT; ligne++){
-            if(state.board[ligne+col*HEIGHT] == HU_CROSS){
-                std::cout << "X " <<ligne+col*HEIGHT <<"|";
-                
-            }else if(state.board[ligne+col*HEIGHT] == AI_ROUND){
-                std::cout << "O"<<ligne+col*HEIGHT <<"|";
+        for(int col = 0; col < WIDTH; col++){
+            if(state.board[ligne*WIDTH+col] == HU_CROSS){
+                std::cout << "X|";
+            }else if(state.board[ligne*WIDTH+col] == AI_ROUND){
+                std::cout << "O|";
             }else{
                 std::cout << " |";
             }
