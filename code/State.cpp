@@ -2,34 +2,31 @@
 #include <iostream>
 
 State::State(){
-    for(int i = 0; i < WIDTH; i++){
-        this->board_ind[i] = 0;
-        for(int j = 0; j < HEIGHT; j++){
-            this->board[i*j] = 0;
+    for(int c = 0; c < WIDTH; c++){
+        this->board_ind[c] = 0;
+        for(int l = 0; l < HEIGHT; l++){
+            this->board[c*WIDTH+l] = 0;
         }
     }
 }
 
 State::State(player_e player){
-    for(int i = 0; i < WIDTH; i++){
-        this->board_ind[i] = 0;
-        for(int j = 0; j < HEIGHT; j++){
-            this->board[i*j] = 0;
+    for(int c = 0; c < WIDTH; c++){
+        this->board_ind[c] = 0;
+        for(int l = 0; l < HEIGHT; l++){
+            this->board[c*WIDTH+l] = 0;
         }
     }
-
     this->player = player;
 }
 
 State::State(State *old_state){
-
-    for(int i = 0; i < WIDTH; i++){
-        this->board_ind[i] = old_state->board_ind[i];
-        for(int j = 0; j < HEIGHT; j++){
-            this->board[i*j] = old_state->board[i*j];
+    for(int c = 0; c < WIDTH; c++){
+        this->board_ind[c] = old_state->board_ind[c];
+        for(int l = 0; l < HEIGHT; l++){
+            this->board[c*WIDTH+l] = old_state->board[c*WIDTH+l];
         }
     }
-
     this->player = old_state->player;
 }
 

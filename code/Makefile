@@ -10,3 +10,4 @@ main: $(OBJS)
 
 clean:
 	rm -rf *.o *~ 
+	rm main
