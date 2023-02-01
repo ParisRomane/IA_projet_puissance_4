@@ -5,7 +5,7 @@ State::State(){
     for(int c = 0; c < WIDTH; c++){
         this->board_ind[c] = 0;
         for(int l = 0; l < HEIGHT; l++){
-            this->board[c*WIDTH+l] = 0;
+            this->board[c*HEIGHT+l] = 0;
         }
     }
 }
@@ -14,7 +14,7 @@ State::State(player_e player){
     for(int c = 0; c < WIDTH; c++){
         this->board_ind[c] = 0;
         for(int l = 0; l < HEIGHT; l++){
-            this->board[c*WIDTH+l] = 0;
+            this->board[c*HEIGHT+l] = 0;
         }
     }
     this->player = player;
@@ -24,7 +24,7 @@ State::State(State *old_state){
     for(int c = 0; c < WIDTH; c++){
         this->board_ind[c] = old_state->board_ind[c];
         for(int l = 0; l < HEIGHT; l++){
-            this->board[c*WIDTH+l] = old_state->board[c*WIDTH+l];
+            this->board[c*HEIGHT+l] = old_state->board[c*HEIGHT+l];
         }
     }
     this->player = old_state->player;

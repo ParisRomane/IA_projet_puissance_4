@@ -24,6 +24,8 @@ void print_state(State state){
 }
 
 int main(int argc, char* argv[]){
+
+
     State state = State(HUMAN);
 
     print_state(state);
@@ -35,6 +37,6 @@ int main(int argc, char* argv[]){
     print_state(state);
     state.play(6, info);
     print_state(state);
-
+    
     return EXIT_SUCCESS;
 }
