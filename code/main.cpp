@@ -5,14 +5,14 @@ bool info;
 
 void print_state(State state){
     std::cout << "---------------" << std::endl;
-    for(int i = 0; i < WIDTH; i++){
+    for(int col = 0; col < WIDTH; col++){
         std::cout << "|";
-        for(int j = 0; j < HEIGHT; j++){
-
-            if(state.board[i*j] == HU_CROSS){
-                std::cout << "X|";
-            }else if(state.board[i*j] == AI_ROUND){
-                std::cout << "O|";
+        for(int ligne = 0; ligne < HEIGHT; ligne++){
+            if(state.board[ligne+col*HEIGHT] == HU_CROSS){
+                std::cout << "X " <<ligne+col*HEIGHT <<"|";
+                
+            }else if(state.board[ligne+col*HEIGHT] == AI_ROUND){
+                std::cout << "O"<<ligne+col*HEIGHT <<"|";
             }else{
                 std::cout << " |";
             }
@@ -31,6 +31,8 @@ int main(int argc, char* argv[]){
     state.play(1, info);
     print_state(state);
     state.play(1, info);
+    print_state(state);
+    state.play(6, info);
     print_state(state);
     state.play(6, info);
     print_state(state);

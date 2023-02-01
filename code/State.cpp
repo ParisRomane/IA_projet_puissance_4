@@ -1,5 +1,5 @@
 #include "State.h"
-
+#include <iostream>
 
 State::State(){
     for(int i = 0; i < WIDTH; i++){
@@ -38,9 +38,11 @@ void State::play(int column, bool &info){
     token_e token = (player == HUMAN) ? HU_CROSS : AI_ROUND;
 
     if(board_ind[column] < HEIGHT-1){
-
-        board[(board_ind[column]+1) * HEIGHT] = token;
+        std::cout<< board[0] <<" "<< HEIGHT* WIDTH - ((WIDTH - column +1 )+(board_ind[column]) * HEIGHT)<< "\n";
+        board[HEIGHT* WIDTH - ((WIDTH - column +1 )+(board_ind[column]) * HEIGHT)] = token;
+        std::cout<< board[0];
         board_ind[column]++;
+        std::cout<< board[0];
         player = (player == HUMAN) ? AI : HUMAN;
         info = true;
 
