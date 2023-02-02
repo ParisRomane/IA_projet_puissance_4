@@ -1,5 +1,5 @@
-#include "State.h"
 #include <iostream>
+#include "State.h"
 
 bool info;
 
@@ -37,6 +37,21 @@ int main(int argc, char* argv[]){
     print_state(state);
     state.play(6, info);
     print_state(state);
+    state.play(0, info);
+    print_state(state);
+    state.play(6, info);
+    print_state(state);
+    state.play(0, info);
+    print_state(state);
+    state.play(6, info);
+    print_state(state);
+    state.play(0, info);
+    print_state(state);
+    state.play(6, info);
+    print_state(state);
+
+    std::cout << state.getEnd() << std::endl;
+    std::cout << AI_VICTORY << std::endl;
     
     return EXIT_SUCCESS;
 }

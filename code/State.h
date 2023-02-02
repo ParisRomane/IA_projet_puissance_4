@@ -1,6 +1,9 @@
 #include "structs.h"
 #include <vector>
 
+#if !defined(STATE)
+#define STATE
+
 #define HEIGHT 6
 #define WIDTH 7
 
@@ -27,3 +30,5 @@ class State{
 
         State(State* old_state);
 };
+
+#endif // STATE

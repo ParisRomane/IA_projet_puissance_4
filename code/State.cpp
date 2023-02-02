@@ -1,4 +1,4 @@
-#include "State.h"
+#include "checks.h"
 #include <iostream>
 
 State::State(){
@@ -65,10 +65,10 @@ std::vector<State> State::next_states(){
 
 end_e State::getEnd(){
 
-    //TODO
+    return check_column(this, 6);
 }
 
 player_e State::getPlayer(){
-    
+
     return this->player;
 }
