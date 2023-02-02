@@ -1,4 +1,5 @@
 #include "structs.h"
+#include <vector>
 
 #define HEIGHT 6
 #define WIDTH 7
@@ -14,7 +15,7 @@ class State{
 
         void play(int column, bool &info);
 
-        State next_state();
+        std::vector<State> next_states();
 
         end_e getEnd();
 

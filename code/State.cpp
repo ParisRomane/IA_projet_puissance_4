@@ -46,9 +46,21 @@ void State::play(int column, bool &info){
     }
 }
 
-State State::next_state(){
+std::vector<State> State::next_states(){
 
-    //TODO
+    std::vector<State> result;
+
+    //For theses cases retrieve the infos is useless. All cases are playable.
+    for(int i = 0; i < WIDTH; i++){
+        if(board_ind[WIDTH] < HEIGHT){
+
+            bool info;
+            State next_state = State(this);
+            next_state.play(i, info);
+
+            result.push_back(next_state);
+        }
+    }
 }
 
 end_e State::getEnd(){
@@ -56,7 +68,7 @@ end_e State::getEnd(){
     //TODO
 }
 
-player_e State::getPlayer()
-{
+player_e State::getPlayer(){
+    
     return this->player;
 }
