@@ -4,104 +4,84 @@
 #if !defined(CHECKS)
 #define CHECKS
 
-end_e switch_stmt(int statement, int & acc_hu, int & acc_ai){
+bool check_diags(State state, int x, int y){
+    // token qui viens d'être mis. 
+    int token = state.board[y*WIDTH+x]; 
 
-    switch (statement){
-        case HU_CROSS:
-            acc_hu ++;
-            acc_ai = 0;
-        break;
-        
-        case AI_ROUND:
-            acc_hu = 0;
-            acc_ai ++;
-        break;
-    
-        default:    //VOID
-            return NONE;
-        break;
-    }
-
-    if(acc_hu == 4){
-        std::cout << "HU " << acc_hu << " " << ((acc_hu == 4) ? "True" : "False") << std::endl;
-        return HU_VICTORY;
-    }
-
-    if(acc_ai == 4){
-        std::cout << "AI" << acc_ai << std::endl;
-        return AI_VICTORY;
-    }
-}
-
-end_e check_upward_diag(State state, int x, int y){
-    int acc_hu = 0;
-    int acc_ai = 0;
-
-    for(int i = x; i >= x; i++){
-        for(int j = HEIGHT; j >= y; j--){
-
-            end_e res = switch_stmt(state.board[j*WIDTH + i], acc_hu, acc_ai);
-
-            if(res == HU_VICTORY && AI_VICTORY){
-                return res;
+    //Est-ce qu'il viens completer une diagonale de 4 éléments ?
+    for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){  //diagonale vers la droite ou gauche ?
+        for ( int up_or_down = -1 ; up_or_down <= 1 ; up_or_down = up_or_down+2){ //diagonale vers le haut ou bas ?
+            // initialisation :
+            int acc = 0;
+            int col = x;
+            int line = y;
+            //construction de la diagonale :
+            for( int i = 0;  i < 4 && col < WIDTH && col >= 0 && line < HEIGHT && line >= 0; i++ ){
+                if( state.board[(line)*WIDTH+col] == token){
+                    acc++;
+                } else { acc = 0;}
+                //test :
+                std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+                
+                col +=  right_or_left;
+                line += up_or_down;
+                }
+            if (acc == 4) { // si diagonale complète :
+                return true;
             }
         }
     }
-    
-    return NONE;
+    return false;
 }
 
-end_e check_downward_diag(State state, int x, int y){
 
-    int acc_hu = 0;
-    int acc_ai = 0;
+bool check_lines(State state, int x, int y){
+    // token qui viens d'être mis. 
+    int token = state.board[y*WIDTH+x];
 
-    for(int i = x; i >= x; i++){
-        for(int j = y; j < HEIGHT; j++){
-
-            end_e res = switch_stmt(state.board[j*WIDTH + i], acc_hu, acc_ai);
-            
-            if(res == HU_VICTORY || res == AI_VICTORY){
-                return res;
+    //Est-ce qu'il viens completer une line horizonale de 4 éléments ?
+    for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){ // orientation de la line
+        int acc = 0;
+        int col = x;
+        int line = y;
+        for( int i = 0;  i < 4 && col < WIDTH && col >= 0 ; i++ ){
+            if( state.board[(line)*WIDTH+col] == token){
+                acc++;
+            } else { acc = 0;}
+            //test :
+            std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+            col +=  right_or_left;
             }
+        if (acc == 4) {
+            return true;
         }
     }
-
-    return NONE;
+    return false;
 }
 
-end_e check_line(State state, int y){
+bool check_columns(State state, int x, int y){
+    // token qui viens d'être mis. 
+    int token = state.board[y*WIDTH+x];
 
-    int acc_hu = 0;
-    int acc_ai = 0;
+    //Est-ce qu'il viens completer une line horizonale de 4 éléments ?
+    for ( int up_or_down = -1 ; up_or_down <= 1 ; up_or_down = up_or_down+2){ //orientation de la colone
+        int acc = 0;
+        int col = x;
+        int line = y;
+        for( int i = 0;  i < 4 && line < HEIGHT && line >= 0; i++ ){
+            if( state.board[(line)*WIDTH+col] == token){
+                acc++;
+            } else { acc = 0;}
+            //test :
+            std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
 
-    for(int i = 0; i < WIDTH; i++){
-
-        end_e res = switch_stmt(state.board[y*WIDTH + i], acc_hu, acc_ai);
-            
-        if(res == HU_VICTORY && AI_VICTORY){
-            return res;
+            line += up_or_down;
+            }
+        if (acc == 4) {
+            return true;
         }
     }
-
-    return NONE;
-}
-
-end_e check_column(State state, int x){
-
-    int acc_hu = 0;
-    int acc_ai = 0;
-
-    for(int i = 0; i < HEIGHT; i++){
-
-        end_e res = switch_stmt(state.board[i*WIDTH + x], acc_hu, acc_ai);
-            
-        if(res == HU_VICTORY && AI_VICTORY){
-            return res;
-        }
-    }
-
-    return NONE;
+    return false;
 }
 
 #endif // CHECKS

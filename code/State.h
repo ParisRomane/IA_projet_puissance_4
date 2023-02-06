@@ -20,7 +20,7 @@ class State{
 
         std::vector<State> next_states();
 
-        end_e getEnd();
+        end_e getEnd(int x, int y);
 
         player_e getPlayer();
 

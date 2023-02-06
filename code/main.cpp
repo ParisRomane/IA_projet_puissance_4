@@ -5,12 +5,12 @@ bool info;
 
 void print_state(State state){
     std::cout << "---------------" << std::endl;
-    for(int ligne = 0; ligne < HEIGHT; ligne++){
+    for(int line = 0; line < HEIGHT; line++){
         std::cout << "|";
         for(int col = 0; col < WIDTH; col++){
-            if(state.board[ligne*WIDTH+col] == HU_CROSS){
+            if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)] == HU_CROSS){
                 std::cout << "X|";
-            }else if(state.board[ligne*WIDTH+col] == AI_ROUND){
+            }else if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)]  == AI_ROUND){
                 std::cout << "O|";
             }else{
                 std::cout << " |";
@@ -27,31 +27,48 @@ int main(int argc, char* argv[]){
 
 
     State state = State(HUMAN);
+    //TEST COLONES
+    /*
+    print_state(state);
+    state.play(1, info);
+    print_state(state);
+    state.play(2, info);
+    print_state(state);
+    state.play(2, info);
+    print_state(state);
+    state.play(3, info);
+    print_state(state);
+    state.play(3, info);
+    print_state(state);
+    state.play(4, info);
+    print_state(state);
+    state.play(3, info);
+    print_state(state);
+    state.play(4, info);
+    print_state(state);
+    state.play(4, info);
+    print_state(state);
+    state.play(5, info);
+    print_state(state);
+    state.play(4, info);
+    print_state(state);*/
 
+    //TEST LIGNES :
     print_state(state);
     state.play(1, info);
     print_state(state);
     state.play(1, info);
     print_state(state);
-    state.play(6, info);
+    state.play(2, info);
     print_state(state);
-    state.play(6, info);
+    state.play(2, info);
     print_state(state);
-    state.play(0, info);
+    state.play(3, info);
     print_state(state);
-    state.play(6, info);
+    state.play(3, info);
     print_state(state);
-    state.play(0, info);
+    state.play(4, info);
     print_state(state);
-    state.play(6, info);
-    print_state(state);
-    state.play(0, info);
-    print_state(state);
-    state.play(6, info);
-    print_state(state);
-
-    std::cout << state.getEnd() << std::endl;
-    std::cout << AI_VICTORY << std::endl;
     
     return EXIT_SUCCESS;
 }
