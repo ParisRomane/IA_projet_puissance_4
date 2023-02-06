@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
     print_state(state);*/
 
     //TEST LIGNES :
-    print_state(state);
+    /*print_state(state);
     state.play(1, info);
     print_state(state);
     state.play(1, info);
@@ -68,6 +68,23 @@ int main(int argc, char* argv[]){
     state.play(3, info);
     print_state(state);
     state.play(4, info);
+    print_state(state);*/
+
+    //TEST COLONES :
+    print_state(state);
+    state.play(1, info);
+    print_state(state);
+    state.play(2, info);
+    print_state(state);
+    state.play(1, info);
+    print_state(state);
+    state.play(2, info);
+    print_state(state);
+    state.play(1, info);
+    print_state(state);
+    state.play(2, info);
+    print_state(state);
+    state.play(1, info);
     print_state(state);
     
     return EXIT_SUCCESS;
