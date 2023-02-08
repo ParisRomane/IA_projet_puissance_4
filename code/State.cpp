@@ -53,7 +53,7 @@ void State::play(int column, bool &info)
 
     token_e token = (player == HUMAN) ? HU_CROSS : AI_ROUND;
 
-    if(board_ind[column] < HEIGHT){
+    if(column < WIDTH && column >= 0 && board_ind[column] < HEIGHT){
         board[board_ind[column]*WIDTH+column] = token;
         board_ind[column]++;
         player = (player == HUMAN) ? AI : HUMAN;
@@ -83,6 +83,7 @@ std::vector<State> State::next_states(){
             result.push_back(next_state);
         }
     }
+    return result;
 }
 
 end_e State::getEnd(){

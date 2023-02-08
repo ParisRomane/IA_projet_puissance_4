@@ -47,11 +47,11 @@ State player_turn(State cur_state){
 State ai_turn(State cur_state){
 
     auto next_states = cur_state.next_states();
-    /*int i = std::experimental::randint(0, (int)next_states.size() - 1);
+    int i = std::experimental::randint(0, (int)next_states.size() - 1);
 
-    std::cout << i << std::endl;*/
+    std::cout << i << std::endl;
 
-    //return next_states[i];
+    return next_states[i];
 }
 
 int main(int argc, char* argv[]){
@@ -59,65 +59,6 @@ int main(int argc, char* argv[]){
 
     State state = State(HUMAN);
     bool info;
-    //TEST COLONES
-    /*
-    print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(3, info);
-    print_state(state);
-    state.play(3, info);
-    print_state(state);
-    state.play(4, info);
-    print_state(state);
-    state.play(3, info);
-    print_state(state);
-    state.play(4, info);
-    print_state(state);
-    state.play(4, info);
-    print_state(state);
-    state.play(5, info);
-    print_state(state);
-    state.play(4, info);
-    print_state(state);*/
-
-    //TEST LIGNES :
-    /*print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(3, info);
-    print_state(state);
-    state.play(3, info);
-    print_state(state);
-    state.play(4, info);
-    print_state(state);*/
-
-    //TEST COLONES :
-    /*print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(1, info);
-    print_state(state);
-    state.play(2, info);
-    print_state(state);
-    state.play(1, info);
-    print_state(state);*/
 
     end_e end = NONE;
     int i = 1;
