@@ -11,6 +11,11 @@ class State{
 
     private:
         player_e player;
+        int last_played_x;
+        int last_played_y;
+
+        bool is_full();
+
     public:
 
         int board_ind[WIDTH];
@@ -20,7 +25,7 @@ class State{
 
         std::vector<State> next_states();
 
-        end_e getEnd(int x, int y);
+        end_e getEnd();
 
         player_e getPlayer();
 

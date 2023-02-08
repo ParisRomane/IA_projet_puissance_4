@@ -21,7 +21,7 @@ bool check_diags(State state, int x, int y){
                     acc++;
                 } else { acc = 0;}
                 //test :
-                std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+                //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
                 
                 col +=  right_or_left;
                 line += up_or_down;
@@ -49,7 +49,7 @@ bool check_lines(State state, int x, int y){
                 acc++;
             } else { acc = 0;}
             //test :
-            std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
             col +=  right_or_left;
             }
         if (acc == 4) {
@@ -73,7 +73,7 @@ bool check_columns(State state, int x, int y){
                 acc++;
             } else { acc = 0;}
             //test :
-            std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
 
             line += up_or_down;
             }
