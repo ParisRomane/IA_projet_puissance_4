@@ -46,12 +46,8 @@ State player_turn(State cur_state){
 
 State ai_turn(State cur_state){
 
-    auto next_states = cur_state.next_states();
-    int i = std::experimental::randint(0, (int)next_states.size() - 1);
-
-    std::cout << i << std::endl;
-
-    return next_states[i];
+    
+    return cur_state.next_states();
 }
 
 int main(int argc, char* argv[]){

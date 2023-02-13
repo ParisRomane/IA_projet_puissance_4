@@ -1,6 +1,25 @@
 #include "checks.h"
 #include <iostream>
 #include "State.h"
+#include  <cstdlib>
+void PrintState(State state){
+    std::cout << "---------------" << std::endl;
+    for(int line = 0; line < HEIGHT; line++){
+        std::cout << "|";
+        for(int col = 0; col < WIDTH; col++){
+            if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)] == HU_CROSS){
+                std::cout << "X|";
+            }else if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)]  == AI_ROUND){
+                std::cout << "O|";
+            }else{
+                std::cout << " |";
+            }
+        }
+        std::cout << std::endl << "---------------" << std::endl;
+    }
+
+    std::cout << ((state.getPlayer() == HUMAN) ? "Your turn." : "Turn of the computer.") << std::endl << std::endl;
+}
 
 State::State(){
     for(int c = 0; c < WIDTH; c++){
@@ -68,21 +87,33 @@ void State::play(int column, bool &info)
     }
 }
 
-std::vector<State> State::next_states(){
-
-    std::vector<State> result;
-
+State State::next_states(){
+    int max = 0 ;
+    int choix = -1;
+    bool info;
+    State result = State(this);
     //For theses cases retrieve the infos is useless. All cases are playable.
     for(int i = 0; i < WIDTH; i++){
         if(board_ind[i] < HEIGHT){
-
-            bool info;
-            State next_state = State(this);
-            next_state.play(i, info);
-
-            result.push_back(next_state);
+            int gain = 0;
+            for(int iter =0; iter<20; iter++){
+                State next_state = State(this);
+                while(next_state.getEnd()==NONE){
+                    int next = std::rand() % 7;
+                    next_state.play(next, info);
+                }
+                if(next_state.getEnd()==AI_VICTORY){
+                    gain += 1;
+                }
+            }
+            if(max<gain){
+            max = gain;
+            choix = i;
+            }
         }
+        
     }
+    result.play(choix, info);
     return result;
 }
 

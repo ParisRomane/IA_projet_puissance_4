@@ -23,7 +23,7 @@ class State{
 
         void play(int column, bool &info);
 
-        std::vector<State> next_states();
+        State next_states();
 
         end_e getEnd();
 
@@ -37,3 +37,5 @@ class State{
 };
 
 #endif // STATE
+
+void PrintState(State state);
