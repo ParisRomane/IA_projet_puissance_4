@@ -34,6 +34,13 @@ class State{
         State(player_e player);
 
         State(State* old_state);
+
+        int get_x(){return last_played_x;}
+
+        int get_y(){return last_played_y;}
+
+        int check_near_end();
+
 };
 
 #endif // STATE

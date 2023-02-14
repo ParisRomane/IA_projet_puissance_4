@@ -23,7 +23,7 @@ void print_state(State state){
 
 State player_turn(State cur_state){
 
-    int column;
+    std::string column;
     bool info = false;
     State next_state = State(cur_state);
 
@@ -32,8 +32,12 @@ State player_turn(State cur_state){
         std::cout << "Which column ? ";
         std::cin >> column;
         std::cout << std::endl;
+        std::cout << stoi(column);
+        if(!stoi(column)){
+            std::cout << "please enter int." << std::endl << std::endl;
+        }
 
-        next_state.play(column, info);
+        next_state.play(stoi(column), info);
 
         if(!info){
             std::cout << "That move is impossible." << std::endl << std::endl;
@@ -45,7 +49,13 @@ State player_turn(State cur_state){
 }
 
 State ai_turn(State cur_state){
-
+    if (cur_state.check_near_end()!=-1){
+        State next_state = State(cur_state);
+        bool info;
+        std::cout<<cur_state.check_near_end();
+        next_state.play(cur_state.check_near_end(), info);
+        return next_state;
+    }
     
     return cur_state.next_states();
 }
