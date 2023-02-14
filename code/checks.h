@@ -29,7 +29,6 @@ bool check_diags(State state, int x, int y){
             bornes.push_back(acc) ;
         }
     }
-    std::cout<< bornes[0] <<" "<< bornes[1]<<" "<< bornes[2]<<" "<< bornes[3]<<"\n";
     if ( bornes[0] + bornes[3] >= 5 || bornes[2] + bornes[1] >= 5) { // si diagonale complète :
         return true;
     }
@@ -107,12 +106,13 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
                 }
                 void_index = std::make_tuple (col, line,token);
             }  else {break;}
-            bornes.push_back(acc) ;
             col +=  right_or_left;
             line -= right_or_left;
         }
+        bornes.push_back(acc) ;
     }
-    if ( bornes[0] + bornes[3] >= 4 || bornes[1] + bornes[1] >= 4) { // si diagonale complète :
+    std::cout<<bornes[0]<<" "<<bornes[1]<<" t1\n";
+    if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -139,12 +139,13 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
                 }
                 void_index = std::make_tuple (col, line,token);
             }  else {break;}
-            bornes.push_back(acc) ;
             col +=  right_or_left;
             line  +=  right_or_left;
         }
+        bornes.push_back(acc) ;
     }
-    if ( bornes[0] + bornes[3] >= 4 || bornes[1] + bornes[2] >= 4) { // si diagonale complète :
+    std::cout<<bornes[0]<<" "<<bornes[1]<<" t2\n";
+    if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);

@@ -146,6 +146,6 @@ std::tuple<int,int,int>  State::check_near_end(){
     if(std::get<0>(check_pos_lines(state,x,y))!= -1)return check_pos_lines(state,x,y);
     if(std::get<0>(check_pos_columns(state,x,y))!= -1)return check_pos_columns(state,x,y);
     if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_1(state,x,y);
-    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
+    if(std::get<0>(check_pos_diags_2(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
     return std::make_tuple (-1,-1,-1);
 }
