@@ -51,15 +51,15 @@ State player_turn(State cur_state){
 
 State ai_turn(State cur_state){
     //ce check est a faire 2 fois !!! a chaque coup -> début et fin de cette fonction
+    bool info;
     if (std::get<0>(cur_state.check_near_end())!=-1){
         State next_state = State(cur_state);
-        bool info;
         std::cout<<std::get<0>(cur_state.check_near_end());
         next_state.play(std::get<0>(cur_state.check_near_end()), info);
         return next_state;
     }
-    
-    return cur_state.next_states();
+    cur_state.play(0,info);
+    return cur_state;
 }
 
 int main(int argc, char* argv[]){

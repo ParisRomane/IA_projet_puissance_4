@@ -23,13 +23,14 @@ bool check_diags(State state, int x, int y){
                 if( state.board[(line)*WIDTH+col] == token){
                     acc++;
                 } else {break;}
-                bornes.push_back(acc) ;
                 col +=  right_or_left;
                 line += up_or_down;
             }
+            bornes.push_back(acc) ;
         }
     }
-    if ( bornes[0] + bornes[2] == 5 && bornes[1] + bornes[3] == 5) { // si diagonale complète :
+    std::cout<< bornes[0] <<" "<< bornes[1]<<" "<< bornes[2]<<" "<< bornes[3]<<"\n";
+    if ( bornes[0] + bornes[3] >= 5 || bornes[2] + bornes[1] >= 5) { // si diagonale complète :
         return true;
     }
     return false;
@@ -51,7 +52,7 @@ bool check_lines(State state, int x, int y){
             col +=  right_or_left;
         }
     }
-    if ( acc == 5) { // si diagonale complète :
+    if ( acc >= 5) { // si diagonale complète :
         return true;
     }
     return false;
@@ -75,7 +76,7 @@ bool check_columns(State state, int x, int y){
             line += up_or_down;
         }
     }
-    if ( acc == 5) { // si diagonale complète :
+    if ( acc >= 5) { // si diagonale complète :
         return true;
     }
     return false;
@@ -111,7 +112,7 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
             line -= right_or_left;
         }
     }
-    if ( bornes[0] + bornes[2] == 4 && bornes[1] + bornes[3] == 4) { // si diagonale complète :
+    if ( bornes[0] + bornes[3] >= 4 || bornes[1] + bornes[1] >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -143,7 +144,7 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
             line  +=  right_or_left;
         }
     }
-    if ( bornes[0] + bornes[2] == 4 && bornes[1] + bornes[3] == 4) { // si diagonale complète :
+    if ( bornes[0] + bornes[3] >= 4 || bornes[1] + bornes[2] >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -170,7 +171,7 @@ std::tuple<int,int,int>  check_pos_lines(State state, int x, int y){
             col +=  right_or_left;
         }
     }
-    if ( acc == 4) { // si diagonale complète :
+    if ( acc >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -200,7 +201,7 @@ std::tuple<int,int,int> check_pos_columns(State state, int x, int y){
             line += up_or_down;
         }
     }
-    if ( acc == 4) { // si diagonale complète :
+    if ( acc >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
