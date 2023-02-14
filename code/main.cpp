@@ -1,6 +1,7 @@
 #include <iostream>
 #include "State.h"
 #include <experimental/random>
+#include <tuple>
 
 void print_state(State state){
     std::cout << "---------------" << std::endl;
@@ -49,11 +50,12 @@ State player_turn(State cur_state){
 }
 
 State ai_turn(State cur_state){
-    if (cur_state.check_near_end()!=-1){
+    //ce check est a faire 2 fois !!! a chaque coup -> début et fin de cette fonction
+    if (std::get<0>(cur_state.check_near_end())!=-1){
         State next_state = State(cur_state);
         bool info;
-        std::cout<<cur_state.check_near_end();
-        next_state.play(cur_state.check_near_end(), info);
+        std::cout<<std::get<0>(cur_state.check_near_end());
+        next_state.play(std::get<0>(cur_state.check_near_end()), info);
         return next_state;
     }
     

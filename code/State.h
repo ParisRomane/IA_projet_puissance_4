@@ -39,7 +39,7 @@ class State{
 
         int get_y(){return last_played_y;}
 
-        int check_near_end();
+        std::tuple<int,int,int> check_near_end();
 
 };
 

@@ -139,9 +139,13 @@ player_e State::getPlayer(){
     return this->player;
 }
 
-int State::check_near_end(){
-    if(check_end_lines(this, this->last_played_x , this->last_played_y)!=-1)return check_end_lines(this, this->last_played_x , this->last_played_y);
-    if(check_end_columns(this, this->last_played_x , this->last_played_y)!=-1)return check_end_columns(this, this->last_played_x , this->last_played_y);
-    if(check_end_diags(this,this->last_played_x , this->last_played_y)!= std::make_tuple (-1,-1))return 2;
-    return -1;
+std::tuple<int,int,int>  State::check_near_end(){
+    State state = this;
+    int x = this->last_played_x;
+    int y = this->last_played_y;
+    if(std::get<0>(check_pos_lines(state,x,y))!= -1)return check_pos_lines(state,x,y);
+    if(std::get<0>(check_pos_columns(state,x,y))!= -1)return check_pos_columns(state,x,y);
+    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_1(state,x,y);
+    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
+    return std::make_tuple (-1,-1,-1);
 }
