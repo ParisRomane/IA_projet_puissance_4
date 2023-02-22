@@ -50,30 +50,30 @@ State player_turn(State cur_state){
     return next_state;
 }
 
-State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnant){
+State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coups_gagnants){
     bool info;
     State next_state = State(cur_state);
     // Optimisation sur les coups gagnants.
-    for (int i =0; i<coup_gagnant->size(); i++){
-        int x = std::get<0>((*coup_gagnant)[i]);
-        int y = std::get<1>((*coup_gagnant)[i]);
-        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
+    for (int i =0; i<coups_gagnants->size(); i++){
+        int x = std::get<0>((*coups_gagnants)[i]);
+        int y = std::get<1>((*coups_gagnants)[i]);
+        std::cout<<"coups_gagnants"<<x<<" "<<y<<"\n";
         //on regarde si les coup sont faisable.
         if (next_state.board_ind[x] == y){ 
             next_state.play(x,info);
-            coup_gagnant->erase(coup_gagnant->begin() + i);
-    std::cout<<"coup_1 "<<coup_gagnant->size();
+            coups_gagnants->erase(coups_gagnants->begin() + i);
+    std::cout<<"coup_1 "<<coups_gagnants->size();
             return next_state;
         }
         
     }
-    std::cout<<"coup_2 "<<coup_gagnant->size();
+    std::cout<<"coup_2 "<<coups_gagnants->size();
     return next_state.next_states();
 }
 
 int main(int argc, char* argv[]){
 
-    std::vector<std::tuple<int,int,int>> coup_gagnant;
+    std::vector<std::tuple<int,int,int>> coups_gagnants;
     std::tuple<int,int,int> coup;
     State state = State(HUMAN);
     bool info;
@@ -84,14 +84,9 @@ int main(int argc, char* argv[]){
     print_state(state);
     while(end == NONE){
         i = (i + 1) % 2;
-        state = (i == 0) ? player_turn(state) : ai_turn(state,&coup_gagnant);
+        state = (i == 0) ? player_turn(state) : ai_turn(state,&coups_gagnants);
 
-        // on regarde si le coup réalise/annule un coup gagnant : 
-        std::find(coup_gagnant.begin(), coup_gagnant.end(), coup) != coup_gagnant.end();
-        // regarde si le coup fait est un final ou une ligne de 3 avec un vide
-        // oui mais si un coup annule un coup ?
-        coup = state.check_near_end();
-        if (std::get<0>(coup)!=-1) coup_gagnant.push_back(coup);
+        state.check_near_end(&coups_gagnants);
         end = state.getEnd();
         print_state(state);
     }

@@ -139,13 +139,12 @@ player_e State::getPlayer(){
     return this->player;
 }
 
-std::tuple<int,int,int>  State::check_near_end(){
+void State::check_near_end(std::vector<std::tuple<int,int,int>>* coups){
     State state = this;
     int x = this->last_played_x;
     int y = this->last_played_y;
-    if(std::get<0>(check_pos_lines(state,x,y))!= -1)return check_pos_lines(state,x,y);
-    if(std::get<0>(check_pos_columns(state,x,y))!= -1)return check_pos_columns(state,x,y);
-    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_1(state,x,y);
-    if(std::get<0>(check_pos_diags_2(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
-    return std::make_tuple (-1,-1,-1);
+    if(std::get<0>(check_pos_lines(state,x,y))!= -1)coups->push_back(check_pos_lines(state,x,y));
+    if(std::get<0>(check_pos_columns(state,x,y))!= -1)coups->push_back(check_pos_columns(state,x,y));
+    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)coups->push_back(check_pos_diags_1(state,x,y));
+    if(std::get<0>(check_pos_diags_2(state,x,y))!= -1)coups->push_back(check_pos_diags_2(state,x,y));
 }

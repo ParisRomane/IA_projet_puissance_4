@@ -88,12 +88,11 @@ bool check_columns(State state, int x, int y){
 std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut vers bas / gauche droite
     // token qui viens d'être mis. 
     int token = state.board[y*WIDTH+x]; 
-    std::vector<int> bornes ;
+    int acc = 0;
     std::tuple<int,int,int> void_index (-1,-1,token);
     //Est-ce qu'il viens completer une diagonale de 4 éléments ?
     for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){ 
         // initialisation :
-        int acc = 0;
         int col = x;
         int line = y;
         //construction de la diagonale :
@@ -109,10 +108,9 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
             col +=  right_or_left;
             line -= right_or_left;
         }
-        bornes.push_back(acc) ;
     }
-    std::cout<<bornes[0]<<" "<<bornes[1]<<" t1\n";
-    if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
+    std::cout<<"\n" <<acc<<" t1\n";
+    if ( acc >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -121,12 +119,11 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
 std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas vers haut / gauche droite
     // token qui viens d'être mis. 
     int token = state.board[y*WIDTH+x]; 
-    std::vector<int> bornes ;
+    int acc = 0;
     std::tuple<int,int,int> void_index (-1,-1,token);
     //Est-ce qu'il viens completer une diagonale de 4 éléments ?
     for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){  
         // initialisation :
-        int acc = 0;
         int col = x;
         int line = y;
         //construction de la diagonale :
@@ -142,10 +139,9 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
             col +=  right_or_left;
             line  +=  right_or_left;
         }
-        bornes.push_back(acc) ;
     }
-    std::cout<<bornes[0]<<" "<<bornes[1]<<" t2\n";
-    if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
+    std::cout<<acc<<" t2\n";
+    if ( acc >= 4) { // si diagonale complète :
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
