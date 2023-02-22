@@ -64,6 +64,13 @@ void develop_tree(MC_tree tree, int time, strat_e strategy){
     // ensuite on retourne selon la stratégie, le meilleur noeud
 }
 
+void rollout_node(node nod){
+    // déjà plus ou moins fait.
+    while(1 != 0){
+        create_tree();
+    }
+}
+
 void develop_node(node nod){
     //on arrive a un neud. on doit le develloper
     if(nod.n == 0){ //leaf, not develloped
@@ -76,12 +83,6 @@ void develop_node(node nod){
     }else{//not a leaf
         node child = choose_children(nod);
         develop_node(child);
-    }
-}
-void rollout_node(node nod){
-    // déjà plus ou moins fait.
-    while(1 != 0){
-        create_tree();
     }
 }
 //FONCTION POUR RÉUTILISER L'ARBRE, et ne pas le redev de 0 à chaque fois.
