@@ -52,7 +52,7 @@ State player_turn(State cur_state){
 }
 
 State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnant){
-    bool info;
+    /*bool info;
     State next_state = State(cur_state);
     // Optimisation sur les coups gagnants.
     for (int i =0; i<coup_gagnant->size(); i++){
@@ -69,7 +69,15 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
         
     }
     std::cout<<"coup_2 "<<coup_gagnant->size();
-    return next_state.next_states();
+    return next_state.next_states();*/
+
+    bool info;
+
+    MC_tree tree = create_tree(State(cur_state));
+    State next_state = State(cur_state);
+    next_state.play(develop_tree(tree, 10, ROBUST), info);
+
+    return next_state;
 }
 
 int main(int argc, char* argv[]){

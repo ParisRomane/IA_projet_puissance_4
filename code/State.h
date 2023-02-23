@@ -20,7 +20,7 @@ class State{
         int board[HEIGHT*WIDTH];
 
         void play(int column, bool &info);
-
+        
         State next_states();
 
         end_e getEnd();

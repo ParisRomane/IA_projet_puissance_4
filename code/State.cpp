@@ -2,6 +2,7 @@
 #include <iostream>
 #include "State.h"
 #include  <cstdlib>
+
 void PrintState(State state){
     std::cout << "---------------" << std::endl;
     for(int line = 0; line < HEIGHT; line++){
@@ -67,8 +68,8 @@ bool State::is_full(){
 
     return acc == HEIGHT * WIDTH;
 }
-void State::play(int column, bool &info)
-{
+
+void State::play(int column, bool &info){
 
     token_e token = (player == HUMAN) ? HU_CROSS : AI_ROUND;
 
@@ -92,41 +93,51 @@ State State::next_states(){
     int choix = -1;
     bool info;
     State result = State(this);
+
     //For theses cases retrieve the infos is useless. All cases are playable.
     for(int i = 0; i < WIDTH; i++){
         if(board_ind[i] < HEIGHT){
             int gain = 0;
             for(int iter =0; iter<20; iter++){
                 State next_state = State(this);
-                while(next_state.getEnd()==NONE){
-                    int next = std::rand() % 7;
+
+                while(next_state.getEnd() == NONE){
+                    int next = std::rand() % WIDTH;
                     next_state.play(next, info);
                 }
+
                 if(next_state.getEnd()==AI_VICTORY){
                     gain += 1;
                 }
             }
-            if(max<gain){
-            max = gain;
-            choix = i;
+
+            if(max < gain){
+                max = gain;
+                choix = i;
             }
         }
         
     }
+
     result.play(choix, info);
+
     return result;
 }
 
 end_e State::getEnd(){
+
     if (check_diags(this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
+
     if (check_lines(this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
+
     if (check_columns(this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
+
     if (is_full()){
         return EQUALITY;
     }
