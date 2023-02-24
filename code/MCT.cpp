@@ -106,14 +106,13 @@ int develop_tree(MC_tree tree, int time, strat_e strategy){
 node rollout_node(node nod){
     std::cout << "Rollout_node : ";
 
-    while(true){
-        if(nod.state.getEnd() != NONE){ //Terminal state
-            std::cout << "terminal state case" << std::endl;
-            return nod;
-        }else{
-            std::cout << "non-terminal state case";
-            nod = simulate(nod);
-        }
+    if(nod.state.getEnd() != NONE){ //Terminal state
+        std::cout << "terminal state case" << std::endl;
+        return nod;
+    }else{
+        std::cout << "non-terminal state case";
+        nod = simulate(nod);
+        return rollout_node(nod);
     }
 }
 
@@ -123,7 +122,7 @@ node develop_node(node nod){
 
     //on arrive a un neud. on doit le developes
     if(nod.n == 0){ //leaf, not developed
-        std::cout << "leaf not developed" << std::endl;
+        std::cout << "leaf not developed " << nod.n << std::endl;
         return rollout_node(nod);
     }
 
@@ -145,6 +144,7 @@ void backpropagate(node *nod, bool isAI){
     node* current = nod;
 
     while(current){
+        std::cout << "Iter once" << std::endl;
         current->t += compute_score(*current, isAI);
         current->n += 1;
         current = current->parent;
