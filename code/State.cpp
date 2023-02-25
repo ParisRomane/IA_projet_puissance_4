@@ -3,25 +3,6 @@
 #include "State.h"
 #include  <cstdlib>
 
-void PrintState(State state){
-    std::cout << "---------------" << std::endl;
-    for(int line = 0; line < HEIGHT; line++){
-        std::cout << "|";
-        for(int col = 0; col < WIDTH; col++){
-            if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)] == HU_CROSS){
-                std::cout << "X|";
-            }else if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)]  == AI_ROUND){
-                std::cout << "O|";
-            }else{
-                std::cout << " |";
-            }
-        }
-        std::cout << std::endl << "---------------" << std::endl;
-    }
-
-    std::cout << ((state.getPlayer() == HUMAN) ? "Your turn." : "Turn of the computer.") << std::endl << std::endl;
-}
-
 State::State(){
     for(int c = 0; c < WIDTH; c++){
         this->board_ind[c] = 0;

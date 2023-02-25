@@ -72,7 +72,6 @@ MC_tree create_tree(State state){
     root.t = 0;
     root.AI_turn = 1;
     root.state = state;
-
     create_children(root);
 
     tree.root = &root;
@@ -86,16 +85,19 @@ int develop_tree(MC_tree tree, int time, strat_e strategy){
     int i = 0;
     node nod;
     node best;
+    
 
     while(i < time){
         nod = develop_node(*tree.root);
+        std::cout<<(*tree.root).state.getEnd()<<" end for the cur_state..\n";
         backpropagate(&nod, nod.AI_turn);
 
-        if(strategy == FAST){
+        if(strategy == MAX){
             best = best.n < nod.n ? nod : best;
         }else{
             best = best.t < nod.t ? nod : best;
         }
+        i++;
     }
     std::cout << std::endl;
 
@@ -105,10 +107,11 @@ int develop_tree(MC_tree tree, int time, strat_e strategy){
 
 node rollout_node(node nod){
     std::cout << "Rollout_node : ";
+    std::cout<<nod.state.getEnd()<<" end for the cur_state..\n";
 
     while(true){
         if(nod.state.getEnd() != NONE){ //Terminal state
-            std::cout << "terminal state case" << std::endl;
+            std::cout << "terminal state case " << nod.state.getEnd() <<std::endl;
             return nod;
         }else{
             std::cout << "non-terminal state case";
@@ -145,6 +148,7 @@ void backpropagate(node *nod, bool isAI){
     node* current = nod;
 
     while(current){
+        std::cout<< current->t << " "<<current->n <<current->state.get_x()<<" \n";
         current->t += compute_score(*current, isAI);
         current->n += 1;
         current = current->parent;
