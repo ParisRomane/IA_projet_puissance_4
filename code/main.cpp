@@ -75,7 +75,8 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
     std::cout<<cur_state.get_x()<<"\n";
     MC_tree tree = create_tree(cur_state);
     State next_state = State(cur_state);
-        std::cout<<(*tree.root).state.getEnd()<<" end for the cur_state..\n";
+    std::cout<<tree.root->AI_turn<<std::endl;
+    std::cout<<tree.root->state.getEnd()<<" end for the cur_state..\n";
     next_state.play(develop_tree(tree, 1, ROBUST), info);
 
         std::cout<<(*tree.root).state.getEnd()<<" end for the cur_state..\n";

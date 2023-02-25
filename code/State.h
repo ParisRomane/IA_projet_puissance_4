@@ -31,7 +31,7 @@ class State{
 
         State(player_e player);
 
-        State(State* old_state);
+        State(const State &old_state);
 
         int get_x(){return last_played_x;}
 

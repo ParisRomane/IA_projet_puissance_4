@@ -11,6 +11,7 @@ State::State(){
         }
     }
 
+    player = AI;
     last_played_x = 0;
     last_played_y = 0;
 }
@@ -23,21 +24,21 @@ State::State(player_e player){
         }
     }
     this->player = player;
-    last_played_x = 0;
-    last_played_y = 0;
+    last_played_x = -1;
+    last_played_y = -1;
 }
 
-State::State(State *old_state){
+State::State(const State &old_state){
     for(int c = 0; c < WIDTH; c++){
-        this->board_ind[c] = old_state->board_ind[c];
+        this->board_ind[c] = old_state.board_ind[c];
         for(int l = 0; l < HEIGHT; l++){
-            this->board[c*HEIGHT+l] = old_state->board[c*HEIGHT+l];
+            this->board[c*HEIGHT+l] = old_state.board[c*HEIGHT+l];
         }
     }
 
-    this->player = old_state->player;
-    this->last_played_x = old_state->last_played_x;
-    this->last_played_y = old_state->last_played_y;
+    this->player = old_state.player;
+    this->last_played_x = old_state.last_played_x;
+    this->last_played_y = old_state.last_played_y;
 }
 
 bool State::is_full(){
@@ -73,14 +74,14 @@ State State::next_states(){
     int max = 0 ;
     int choix = -1;
     bool info;
-    State result = State(this);
+    State result = State(*this);
 
     //For theses cases retrieve the infos is useless. All cases are playable.
     for(int i = 0; i < WIDTH; i++){
         if(board_ind[i] < HEIGHT){
             int gain = 0;
             for(int iter =0; iter<20; iter++){
-                State next_state = State(this);
+                State next_state = State(*this);
 
                 while(next_state.getEnd() == NONE){
                     int next = std::rand() % WIDTH;
@@ -107,15 +108,15 @@ State State::next_states(){
 
 end_e State::getEnd(){
 
-    if (check_diags(this, last_played_x, last_played_y)){
+    if (check_diags(*this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
 
-    if (check_lines(this, last_played_x, last_played_y)){
+    if (check_lines(*this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
 
-    if (check_columns(this, last_played_x, last_played_y)){
+    if (check_columns(*this, last_played_x, last_played_y)){
         return (this->player == HUMAN)? HU_VICTORY :AI_VICTORY;
     }
 
@@ -132,7 +133,7 @@ player_e State::getPlayer(){
 }
 
 std::tuple<int,int,int>  State::check_near_end(){
-    State state = this;
+    State state = State(*this);
     int x = this->last_played_x;
     int y = this->last_played_y;
     if(std::get<0>(check_pos_lines(state,x,y))!= -1)return check_pos_lines(state,x,y);
