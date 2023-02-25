@@ -126,7 +126,7 @@ node develop_node(node nod){
 
     //on arrive a un neud. on doit le developes
     if(nod.n == 0){ //leaf, not developed
-        std::cout << "leaf not developed" << std::endl;
+        std::cout << "leaf not developed " << nod.n << std::endl;
         return rollout_node(nod);
     }
 
