@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -std=c++17 -O2
 
-LFLAGS = structs.h checks.h State.h MCT.h
-SRCS = State.cpp MCT.cpp main.cpp
+LFLAGS = structs.h checks.h State.h Node.h
+SRCS = State.cpp Node.cpp main.cpp
 OBJS = $(SRCS: .cpp=.o)
 
 main: $(OBJS)

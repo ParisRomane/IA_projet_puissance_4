@@ -3,7 +3,34 @@
 #include <experimental/random>
 #include <tuple>
 #include <algorithm>
-#include "MCT.h"
+#include "Node.h"
+
+int develop_tree(Node root, int time, strat_e strategy){
+    std::cout << "develop_tree :";
+    //on a ici le timer, et on fait tt les itérations
+    int i = 0;
+    Node node = Node(State());
+    Node best = Node(State());
+    
+
+    while(i < time){
+        root.develop_node();
+        node = root;
+        std::cout<<root.get_state().getEnd()<<" end for the cur_state..\n";
+        node.backpropagate(node.is_AI_turn());
+
+        if(strategy == MAX){
+            best = best.get_n() < node.get_n() ? node : best;
+        }else{
+            best = best.get_t() < node.get_t() ? node : best;
+        }
+        i++;
+    }
+    std::cout << std::endl;
+
+    // ensuite on retourne selon la stratégie, le meilleur noeud
+    return best.get_column();
+}
 
 void print_state(State state){
     std::cout << "---------------" << std::endl;
@@ -72,14 +99,17 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
     return next_state.next_states();*/
 
     bool info;
-    std::cout<<cur_state.get_x()<<"\n";
-    MC_tree tree = create_tree(cur_state);
-    State next_state = State(cur_state);
-    std::cout<<tree.root->AI_turn<<std::endl;
-    std::cout<<tree.root->state.getEnd()<<" end for the cur_state..\n";
-    next_state.play(develop_tree(tree, 1, ROBUST), info);
 
-        std::cout<<(*tree.root).state.getEnd()<<" end for the cur_state..\n";
+    std::cout<<cur_state.get_x()<<"\n";
+
+    Node root = Node(cur_state);
+    State next_state = State(cur_state);
+
+    std::cout<< root.get_state().getEnd() << " end for the cur_state..\n";
+
+    next_state.play(develop_tree(root, 1, ROBUST), info);
+
+    std::cout << root.get_state().getEnd() << " end for the cur_state..\n";
     return next_state;
 }
 
