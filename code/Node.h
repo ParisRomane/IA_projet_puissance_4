@@ -13,21 +13,18 @@ class Node{
         bool AI_turn;
         int column;
         
-        std::vector<Node> childrens;
+        std::vector<Node> children;
         Node *parent;
         State* state;
         
         float UCB1(Node nod);
 
-        Node choose_children();
+        Node choose_child();
 
-        void create_childrens();
+        void rollout_node();
 
-        Node rollout_node();
+        int compute_score();
 
-        int compute_score(bool isAI);
-
-        Node simulate(Node nod);
 
     public:
 
@@ -37,9 +34,9 @@ class Node{
 
         ~Node();
 
-        Node develop_node();
+        void develop_node();
 
-        void backpropagate(bool isAI);
+        void backpropagate();
 
         State* get_state();
 
@@ -49,7 +46,11 @@ class Node{
 
         int get_column();
 
+        int choose_best(strat_e strategy);
+
         bool is_AI_turn();
+
+        void create_children();
 };
 
 #endif // NODE

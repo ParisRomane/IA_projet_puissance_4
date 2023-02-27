@@ -8,7 +8,7 @@ Node::Node(State* state){
     this->t = 0;
     this->state = state;
     this->parent = nullptr;
-    this->childrens.reserve(WIDTH);
+    this->children.reserve(WIDTH);
 }
 
 Node::Node(Node *parent, State *state){
@@ -17,42 +17,42 @@ Node::Node(Node *parent, State *state){
     this->n = 0;
     this->t = 0;
     this->state = state;
-    this->childrens.reserve(WIDTH);
+    this->children.reserve(WIDTH);
     this->parent = parent;
 }
 
 Node::~Node(){
-    for(int i = 0; i < this->childrens.size(); i++){
-       childrens[i].~Node(); 
+    for(long unsigned int i = 0; i < this->children.size(); i++){
+       children[i].~Node(); 
     }
-    delete state;
+    //delete state;
 }
 
-Node Node::develop_node(){
-    std::cout << "develop_node" << std::endl;
+void Node::develop_node(){
+    std::cout << "develop_node" << this->n << std::endl;
     //on arrive a un neud. on doit le developes
-    if(this->n == 0){ //leaf, not developed
+    if(this->n == 0 && this->children.size() == 0){ //leaf, not developed
         return rollout_node();
     }
-
     else if(this->n == 1){ //leaf, developed once
-        create_childrens();
-        Node child = choose_children();
+        create_children();
+        Node child = choose_child();
         return child.develop_node();
 
     }else{//not a leaf
-        Node child = choose_children();
+        std::cout<<"helloooo";
+        Node child = choose_child();
         return child.develop_node();
     }
 }
 
-void Node::backpropagate(bool isAI){
+void Node::backpropagate(){
     std::cout << "backpropagate" << std::endl;
     
     Node* current = this;
 
     while(current){
-        current->t += current->compute_score(isAI);
+        current->t += current->compute_score();
         current->n += 1;
         current = current->parent;
     }
@@ -85,16 +85,16 @@ float Node::UCB1(Node nod){
     return (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n);
 }
 
-Node Node::choose_children(){
-    std::cout << "choose_children" << std::endl;
+Node Node::choose_child(){
+    std::cout << "choose_children" <<this->children.size()<< std::endl;
 
-    int i = 0;
+    long unsigned int i = 0;
     float max = 0;
-    Node choosen_child = Node(parent, parent->state);
+    Node choosen_child = this->children[0];
 
     do{
 
-        Node child = parent->childrens[i];
+        Node child = this->children[i];
 
         if(child.n == 0){
             choosen_child = child;
@@ -105,16 +105,17 @@ Node Node::choose_children(){
 
         if(ucb1 > max){
             max = ucb1;
-            choosen_child = parent->childrens[i];
+            choosen_child = this->children[i];
         }
         
-    }while(i < parent->childrens.size());
+    }while(i < this->children.size());
 
+    std::cout << "choose_children" <<this->children.size()<< std::endl;
     return choosen_child;
 }
 
-void Node::create_childrens(){
-    std::cout << "create_childrens" << std::endl;
+void Node::create_children(){
+    std::cout << "create_children" << std::endl;
 
     int action = 0;
     bool info = true;
@@ -133,65 +134,60 @@ void Node::create_childrens(){
             child.column = action;
             child.state = next;
 
-            this->childrens.push_back(child);
+            this->children.push_back(child);
         }
 
         action ++;
     }
 }
 
-Node Node::rollout_node(){
+void Node::rollout_node(){
     std::cout << "Rollout_node" << std::endl;
-
-    Node node = Node(this, this->state);
-    while(true){
-
-        if(node.state->getEnd() != NONE){ //Terminal state
-            return node;
-        }else{
-            node = simulate(node);
-            node.get_state()->print_state();
-        }
+    bool info;
+    State simulation = State(*this->state);
+    while(simulation.getEnd() == NONE){
+        int next = std::rand() % 7;
+        simulation.play(next, info);
+        simulation.print_state();
     }
+    this->backpropagate();
 }
 
-int Node::compute_score(bool isAI){
+int Node::compute_score(){
     std::cout << "Compute_score" << std::endl;
 
     end_e end = this->state->getEnd();
     
-    if(end == NONE){
-        return 0;
+    if(end == NONE || end ==HU_VICTORY){
+        return -1;
 
     }else if(end == EQUALITY){
 
         return 1;
     }else{
 
-        if(end == HU_VICTORY){
-
-            return isAI ? 0 : 5;
-        }else{
-
-            return isAI ? 5 : 0;
-        }
+        return 5;
     }
 }
 
-Node Node::simulate(Node node){
-    std::cout << "Simulate" << std::endl;
-    
-    bool status = false;
-    State empty_state = State(*this->state);
-    Node res = Node(this, &empty_state);
-
-    while(!status){
-        res.state = new State(*this->state);
-        int action = rand() % WIDTH;
-        res.state->play(action, status);
-        res.column = action;
+int Node::choose_best(strat_e strategy){
+    std::cout<<"score"<<this->children.size();
+    Node best = this->children[0];
+    if (strategy == MAX) {
+        for (long unsigned int i = 0; i<this->children.size(); i++){
+            std::cout<<this->children[i].get_t()<<"\n";
+            if (this->children[i].get_t() >best.get_t()){
+                best = this->children[i];
+            }
+        }
+    }else if (strategy == ROBUST) {
+        for (long unsigned int i = 0; i<this->children.size(); i++){
+            std::cout<<this->children[i].get_n()<<"\n";
+            if (this->children[i].get_n() >best.get_n()){
+                best = this->children[i];
+            }
+        }
     }
-    std::cout << "Result : " << std::endl;
 
-    return res;
+    return best.get_column();
 }

@@ -10,27 +10,18 @@ int develop_tree(Node root, int time, strat_e strategy){
     //on a ici le timer, et on fait tt les itérations
     int i = 0;
     State empty_state = State();
-    Node node = Node(&empty_state);
     Node best = Node(&empty_state);
     
 
     while(i < time){
+        root.create_children();
         root.develop_node();
-        node = root;
-        std::cout<<root.get_state()->getEnd()<<" end for the cur_state..\n";
-        node.backpropagate(node.is_AI_turn());
-
-        if(strategy == MAX){
-            best = best.get_n() < node.get_n() ? node : best;
-        }else{
-            best = best.get_t() < node.get_t() ? node : best;
-        }
         i++;
     }
-    std::cout << std::endl;
+    std::cout << root.get_t()<< std::endl;
 
     // ensuite on retourne selon la stratégie, le meilleur noeud
-    return best.get_column();
+    return root.choose_best(MAX);
 }
 
 State player_turn(State cur_state){
@@ -89,7 +80,7 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
 
     std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 
-    next_state.play(develop_tree(root, 1, ROBUST), info);
+    next_state.play(develop_tree(root, 2, ROBUST), info);
 
     std::cout << root.get_state()->getEnd() << " end for the cur_state..\n";
     return next_state;
