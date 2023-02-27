@@ -15,7 +15,7 @@ class Node{
         
         std::vector<Node> childrens;
         Node *parent;
-        State state;
+        State* state;
         
         float UCB1(Node nod);
 
@@ -31,9 +31,9 @@ class Node{
 
     public:
 
-        Node(State state);
+        Node(State* state);
 
-        Node(Node *parent, State state);
+        Node(Node *parent, State* state);
 
         ~Node();
 
@@ -41,7 +41,7 @@ class Node{
 
         void backpropagate(bool isAI);
 
-        State get_state();
+        State* get_state();
 
         int get_n();
 

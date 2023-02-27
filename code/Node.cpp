@@ -1,7 +1,7 @@
 #include "Node.h"
 #include <iostream> //TEMP
 
-Node::Node(State state){
+Node::Node(State* state){
     this->AI_turn = true;
     this->column = -1;
     this->n = 0;
@@ -11,7 +11,7 @@ Node::Node(State state){
     this->childrens.reserve(WIDTH);
 }
 
-Node::Node(Node *parent, State state){
+Node::Node(Node *parent, State *state){
     this->AI_turn = !parent->AI_turn;
     this->column = -1;
     this->n = 0;
@@ -25,6 +25,7 @@ Node::~Node(){
     for(int i = 0; i < this->childrens.size(); i++){
        childrens[i].~Node(); 
     }
+    delete state;
 }
 
 Node Node::develop_node(){
@@ -57,7 +58,7 @@ void Node::backpropagate(bool isAI){
     }
 }
 
-State Node::get_state(){
+State* Node::get_state(){
     return state;
 }
 
@@ -119,8 +120,9 @@ void Node::create_childrens(){
     bool info = true;
 
     while(action < WIDTH){
-        State next = State(this->state);
-        next.play(action, info);
+        
+        State* next = new State(*this->state);
+        next->play(action, info);
 
         if(info){
             Node child = Node(this, this->state);
@@ -144,11 +146,11 @@ Node Node::rollout_node(){
     Node node = Node(this, this->state);
     while(true){
 
-        if(node.state.getEnd() != NONE){ //Terminal state
+        if(node.state->getEnd() != NONE){ //Terminal state
             return node;
         }else{
             node = simulate(node);
-            node.get_state().print_state();
+            node.get_state()->print_state();
         }
     }
 }
@@ -156,7 +158,7 @@ Node Node::rollout_node(){
 int Node::compute_score(bool isAI){
     std::cout << "Compute_score" << std::endl;
 
-    end_e end = this->state.getEnd();
+    end_e end = this->state->getEnd();
     
     if(end == NONE){
         return 0;
@@ -180,12 +182,13 @@ Node Node::simulate(Node node){
     std::cout << "Simulate" << std::endl;
     
     bool status = false;
-    Node res = Node(this, State());
+    State empty_state = State(*this->state);
+    Node res = Node(this, &empty_state);
 
     while(!status){
-        res.state = State(this->state);
+        res.state = new State(*this->state);
         int action = rand() % WIDTH;
-        res.state.play(action, status);
+        res.state->play(action, status);
         res.column = action;
     }
     std::cout << "Result : " << std::endl;
