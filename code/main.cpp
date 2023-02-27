@@ -32,25 +32,6 @@ int develop_tree(Node root, int time, strat_e strategy){
     return best.get_column();
 }
 
-void print_state(State state){
-    std::cout << "---------------" << std::endl;
-    for(int line = 0; line < HEIGHT; line++){
-        std::cout << "|";
-        for(int col = 0; col < WIDTH; col++){
-            if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)] == HU_CROSS){
-                std::cout << "X|";
-            }else if(state.board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)]  == AI_ROUND){
-                std::cout << "O|";
-            }else{
-                std::cout << " |";
-            }
-        }
-        std::cout << std::endl << "---------------" << std::endl;
-    }
-
-    std::cout << ((state.getPlayer() == HUMAN) ? "Your turn." : "Turn of the computer.") << std::endl << std::endl;
-}
-
 State player_turn(State cur_state){
 
     std::string column;
@@ -123,7 +104,7 @@ int main(int argc, char* argv[]){
     end_e end = NONE;
     int i = 1;
 
-    print_state(state);
+    state.print_state();
     while(end == NONE){
         i = (i + 1) % 2;
         state = (i == 0) ? player_turn(state) : ai_turn(state,&coup_gagnant);
@@ -135,7 +116,7 @@ int main(int argc, char* argv[]){
         coup = state.check_near_end();
         if (std::get<0>(coup)!=-1) coup_gagnant.push_back(coup);
         end = state.getEnd();
-        print_state(state);
+        state.print_state();
     }
     std::cout << end << std::endl;
     

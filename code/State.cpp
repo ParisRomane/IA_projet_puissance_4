@@ -142,3 +142,22 @@ std::tuple<int,int,int>  State::check_near_end(){
     if(std::get<0>(check_pos_diags_2(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
     return std::make_tuple (-1,-1,-1);
 }
+
+void State::print_state(){
+    std::cout << "---------------" << std::endl;
+    for(int line = 0; line < HEIGHT; line++){
+        std::cout << "|";
+        for(int col = 0; col < WIDTH; col++){
+            if(board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)] == HU_CROSS){
+                std::cout << "X|";
+            }else if(board[HEIGHT* WIDTH - ((WIDTH - col )+ line * WIDTH)]  == AI_ROUND){
+                std::cout << "O|";
+            }else{
+                std::cout << " |";
+            }
+        }
+        std::cout << std::endl << "---------------" << std::endl;
+    }
+
+    std::cout << ((player == HUMAN) ? "Your turn." : "Turn of the computer.") << std::endl << std::endl;
+}

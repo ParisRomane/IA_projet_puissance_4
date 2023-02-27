@@ -39,6 +39,7 @@ class State{
 
         std::tuple<int,int,int> check_near_end();
 
+        void print_state();
 };
 
 #endif // STATE

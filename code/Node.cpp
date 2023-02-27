@@ -1,4 +1,5 @@
 #include "Node.h"
+#include <iostream> //TEMP
 
 Node::Node(State state){
     this->AI_turn = true;
@@ -27,6 +28,7 @@ Node::~Node(){
 }
 
 Node Node::develop_node(){
+    std::cout << "develop_node" << std::endl;
     //on arrive a un neud. on doit le developes
     if(this->n == 0){ //leaf, not developed
         return rollout_node();
@@ -44,6 +46,7 @@ Node Node::develop_node(){
 }
 
 void Node::backpropagate(bool isAI){
+    std::cout << "backpropagate" << std::endl;
     
     Node* current = this;
 
@@ -75,11 +78,15 @@ bool Node::is_AI_turn(){
 }
 
 float Node::UCB1(Node nod){
+    std::cout << "UCB1" << std::endl;
+
     assert(nod.n != 0);
     return (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n);
 }
 
 Node Node::choose_children(){
+    std::cout << "choose_children" << std::endl;
+
     int i = 0;
     float max = 0;
     Node choosen_child = Node(parent, parent->state);
@@ -106,6 +113,8 @@ Node Node::choose_children(){
 }
 
 void Node::create_childrens(){
+    std::cout << "create_childrens" << std::endl;
+
     int action = 0;
     bool info = true;
 
@@ -130,19 +139,22 @@ void Node::create_childrens(){
 }
 
 Node Node::rollout_node(){
+    std::cout << "Rollout_node" << std::endl;
+
+    Node node = Node(this, this->state);
     while(true){
 
-        Node node = Node(this, this->state);
-
-        if(this->state.getEnd() != NONE){ //Terminal state
+        if(node.state.getEnd() != NONE){ //Terminal state
             return node;
         }else{
             node = simulate(node);
+            node.get_state().print_state();
         }
     }
 }
 
 int Node::compute_score(bool isAI){
+    std::cout << "Compute_score" << std::endl;
 
     end_e end = this->state.getEnd();
     
@@ -164,13 +176,11 @@ int Node::compute_score(bool isAI){
     }
 }
 
-Node Node::simulate(Node nod){
+Node Node::simulate(Node node){
+    std::cout << "Simulate" << std::endl;
     
     bool status = false;
     Node res = Node(this, State());
-
-    res.n = this->n;
-    res.t = this->t;
 
     while(!status){
         res.state = State(this->state);
@@ -178,6 +188,7 @@ Node Node::simulate(Node nod){
         res.state.play(action, status);
         res.column = action;
     }
+    std::cout << "Result : " << std::endl;
 
     return res;
 }
