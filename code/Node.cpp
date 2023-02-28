@@ -29,12 +29,12 @@ Node::~Node(){
 }
 
 void Node::develop_node(){
-    std::cout << "develop_node" << this->n << std::endl;
+    std::cout << "develop_node"<< std::endl;
     //on arrive a un neud. on doit le developes
     if(this->n == 0 && this->children.size() == 0){ //leaf, not developed
-        return rollout_node();
+        return this->rollout_node();
     }
-    else if(this->n == 1){ //leaf, developed once
+    else if(this->n == 1 && this->children.size() == 0){ //leaf, developed once
         create_children();
         Node child = choose_child();
         return child.develop_node();
@@ -110,7 +110,7 @@ Node Node::choose_child(){
         
     }while(i < this->children.size());
 
-    std::cout << "choose_children" <<this->children.size()<< std::endl;
+    std::cout << "choose_children" <<choosen_child.children.size()<< std::endl;
     return choosen_child;
 }
 
@@ -148,7 +148,6 @@ void Node::rollout_node(){
     while(simulation.getEnd() == NONE){
         int next = std::rand() % 7;
         simulation.play(next, info);
-        simulation.print_state();
     }
     this->backpropagate();
 }

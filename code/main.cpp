@@ -12,9 +12,8 @@ int develop_tree(Node root, int time, strat_e strategy){
     State empty_state = State();
     Node best = Node(&empty_state);
     
-
+    root.create_children();
     while(i < time){
-        root.create_children();
         root.develop_node();
         i++;
     }
