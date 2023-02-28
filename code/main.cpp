@@ -4,18 +4,21 @@
 #include <tuple>
 #include <algorithm>
 #include "Node.h"
+#include <ctime>
 
 int develop_tree(Node root, int time, strat_e strategy){
     std::cout << "develop_tree :";
-    //on a ici le timer, et on fait tt les itérations
-    int i = 0;
+
+    clock_t begin = clock();
+    clock_t end = clock();
+
     State empty_state = State();
     Node best = Node(&empty_state);
     
     root.create_children();
-    while(i < time){
+    while((end - begin) < time){    //Time in millis
         root.develop_node();
-        i++;
+        end = clock();
     }
     std::cout << root.get_t()<< std::endl;
 
@@ -76,6 +79,21 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
 
     Node root = Node(&cur_state);
     State next_state = State(cur_state);
+
+    for (int i =0; i<coup_gagnant->size(); i++){
+
+        int x = std::get<0>((*coup_gagnant)[i]);
+        int y = std::get<1>((*coup_gagnant)[i]);
+        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
+
+        //on regarde si les coup sont faisable.
+        if (next_state.board_ind[x] == y){ 
+            next_state.play(x,info);
+            coup_gagnant->erase(coup_gagnant->begin() + i);
+            std::cout<<"coup_1 "<<coup_gagnant->size();
+            return next_state;
+        }
+    }
 
     std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 

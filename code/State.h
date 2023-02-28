@@ -33,8 +33,6 @@ class State{
 
         State(const State &old_state);
 
-        State* state_pointer(const State &state);
-
         int get_x(){return last_played_x;}
 
         int get_y(){return last_played_y;}
