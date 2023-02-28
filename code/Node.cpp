@@ -22,9 +22,9 @@ Node::Node(Node *parent, State *state){
 }
 
 Node::~Node(){
-    for(long unsigned int i = 0; i < this->children.size(); i++){
+    /*for(long unsigned int i = 0; i < this->children.size(); i++){
        children[i].~Node(); 
-    }
+    }*/
     //delete state;
 }
 
@@ -36,23 +36,21 @@ void Node::develop_node(){
     }
     else if(this->n == 1 && this->children.size() == 0){ //leaf, developed once
         create_children();
-        Node child = choose_child();
-        return child.develop_node();
+        Node *child = choose_child();
+        return child->develop_node();
 
     }else{//not a leaf
-        std::cout<<"helloooo";
-        Node child = choose_child();
-        return child.develop_node();
+        Node *child = choose_child();
+        return child->develop_node();
     }
 }
 
 void Node::backpropagate(end_e end){
-    int score = compute_score(end);
-    Node* current = this;
-
-    while(current){
     std::cout << "backpropagate" << std::endl;
-    std::cout<< "test si on est a la racine : " << this->children.size()<< " score : "<<compute_score(end)<<"\n";
+    int score = compute_score(end);
+
+    Node* current = this;
+    while(current){
         current->t += score;
         current->n += 1;
         current = current->parent;
@@ -80,38 +78,37 @@ bool Node::is_AI_turn(){
 }
 
 float Node::UCB1(Node nod){
-    std::cout << "UCB1" << std::endl;
-
     assert(nod.n != 0);
+    std::cout << "UCB1" << (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n) <<std::endl;
+
     return (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n);
 }
 
-Node Node::choose_child(){
+Node *Node::choose_child(){
     std::cout << "choose_children" <<this->children.size()<< std::endl;
 
     long unsigned int i = 0;
     float max = 0;
-    Node choosen_child = this->children[0];
+    Node *choosen_child = &this->children[0];
 
     do{
 
-        Node child = this->children[i];
+        Node *child = &this->children[i];
 
-        if(child.n == 0){
+        if(child->get_n() == 0){
             choosen_child = child;
             break;
         }
 
-        int ucb1 = UCB1(choosen_child);
+        int ucb1 = UCB1(*child);
 
         if(ucb1 > max){
             max = ucb1;
-            choosen_child = this->children[i];
+            choosen_child = &this->children[i];
         }
-        
+        i++;
     }while(i < this->children.size());
 
-    std::cout << "choose_children" <<choosen_child.children.size()<< std::endl;
     return choosen_child;
 }
 

@@ -19,7 +19,7 @@ class Node{
         
         float UCB1(Node nod);
 
-        Node choose_child();
+        Node *choose_child();
 
         void rollout_node();
 

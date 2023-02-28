@@ -79,7 +79,7 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
 
     std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 
-    next_state.play(develop_tree(root, 2, ROBUST), info);
+    next_state.play(develop_tree(root, 100, ROBUST), info);
 
     std::cout << root.get_state()->getEnd() << " end for the cur_state..\n";
     return next_state;
