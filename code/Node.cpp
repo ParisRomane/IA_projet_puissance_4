@@ -46,13 +46,14 @@ void Node::develop_node(){
     }
 }
 
-void Node::backpropagate(){
-    std::cout << "backpropagate" << std::endl;
-    
+void Node::backpropagate(end_e end){
+    int score = compute_score(end);
     Node* current = this;
 
     while(current){
-        current->t += current->compute_score();
+    std::cout << "backpropagate" << std::endl;
+    std::cout<< "test si on est a la racine : " << this->children.size()<< " score : "<<compute_score(end)<<"\n";
+        current->t += score;
         current->n += 1;
         current = current->parent;
     }
@@ -149,13 +150,11 @@ void Node::rollout_node(){
         int next = std::rand() % 7;
         simulation.play(next, info);
     }
-    this->backpropagate();
+    this->backpropagate(simulation.getEnd());
 }
 
-int Node::compute_score(){
+int Node::compute_score(end_e end){
     std::cout << "Compute_score" << std::endl;
-
-    end_e end = this->state->getEnd();
     
     if(end == NONE || end ==HU_VICTORY){
         return -1;

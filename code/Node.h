@@ -23,7 +23,7 @@ class Node{
 
         void rollout_node();
 
-        int compute_score();
+        int compute_score(end_e end);
 
 
     public:
@@ -36,7 +36,7 @@ class Node{
 
         void develop_node();
 
-        void backpropagate();
+        void backpropagate(end_e end);
 
         State* get_state();
 
