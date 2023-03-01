@@ -1,5 +1,5 @@
 #include "Node.h"
-#include <iostream> //TEMP
+#include <iostream>
 
 Node::Node(State* state){
     this->AI_turn = true;
@@ -29,8 +29,7 @@ Node::~Node(){
 }
 
 void Node::develop_node(){
-    //std::cout << "develop_node"<< std::endl;
-    //on arrive a un neud. on doit le developper
+    //on arrive a un neud. on doit le developes
     if(this->n == 0 && this->children.size() == 0){ //leaf, not developed
         return this->rollout_node();
     }
@@ -46,7 +45,6 @@ void Node::develop_node(){
 }
 
 void Node::backpropagate(end_e end){
-    //std::cout << "backpropagate" << std::endl;
     int score = compute_score(end);
 
     Node* current = this;
@@ -84,15 +82,12 @@ float Node::UCB1(Node nod){
 }
 
 Node *Node::choose_child(){
-    //std::cout << "choose_child" << std::endl;
 
     long unsigned int i = 0;
     float max = 0;
     Node *choosen_child = &this->children[0];
-
-    do{
-
-        Node *child = &this->children[i];
+        
+    while(i < this->children.size()){Node *child = &this->children[i];
 
         if(child->get_n() == 0){
             choosen_child = child;
@@ -106,13 +101,12 @@ Node *Node::choose_child(){
             choosen_child = &this->children[i];
         }
         i++;
-    }while(i < this->children.size());
+        }
 
     return choosen_child;
 }
 
 void Node::create_children(){
-    //std::cout << "create_children" << std::endl;
 
     int action = 0;
     bool info = true;
@@ -140,7 +134,7 @@ void Node::create_children(){
 }
 
 void Node::rollout_node(){
-    //std::cout << "Rollout_node" << std::endl;
+    bool info;
     State simulation = State(*this->state);
     while(simulation.getEnd() == NONE){
         simulation.next_state();
@@ -149,7 +143,6 @@ void Node::rollout_node(){
 }
 
 int Node::compute_score(end_e end){
-    //std::cout << "Compute_score" << std::endl;
     
     if(end == NONE || end ==HU_VICTORY){
         return 0;

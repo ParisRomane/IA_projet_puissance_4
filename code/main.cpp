@@ -8,16 +8,17 @@
 #include <vector>
 
 int develop_tree(Node root, int time, strat_e strategy){
-    std::cout << "develop_tree :";
 
     clock_t begin = clock();
     clock_t end = clock();
 
     State empty_state = State();
     Node best = Node(&empty_state);
+    long millis = 0;
     
     root.create_children();
-    while((end - begin) < time){    //Time in millis
+    while(millis < time){    //Time in millis
+        millis = (end -  begin) * 1000 / CLOCKS_PER_SEC;
         root.develop_node();
         end = clock();
     }
@@ -65,8 +66,7 @@ State ai_turn(State cur_state){
         return next_state;
     }
 
-    next_state.play(develop_tree(root, 1000, ROBUST), info);
-
+    next_state.play(develop_tree(root, 400, ROBUST), info);
     return next_state;
 }
 
