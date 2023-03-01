@@ -22,10 +22,10 @@ Node::Node(Node *parent, State *state){
 }
 
 Node::~Node(){
-    for(long unsigned int i = 0; i < this->children.size(); i++){
+    /*for(long unsigned int i = 0; i < this->children.size(); i++){
        children[i].~Node(); 
     }
-    delete state;
+    delete state;*/
 }
 
 void Node::develop_node(){
@@ -135,7 +135,7 @@ void Node::create_children(){
             this->children.push_back(child);
         }
 
-        delete next;
+        //delete next;
         action ++;
     }
 }
