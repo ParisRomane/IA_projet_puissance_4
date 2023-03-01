@@ -70,40 +70,43 @@ void State::play(int column, bool &info){
     }
 }
 
-State State::next_states(){
-    int max = 0 ;
-    int choix = -1;
+int State::possible_coup_gagnant(){
+    for (int i =0; i<this->coup_gagnantAI.size(); i++){
+
+        int x = std::get<0>((this->coup_gagnantAI)[i]);
+        int y = std::get<1>((this->coup_gagnantAI)[i]);
+        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
+
+        //on regarde si les coup sont faisable.
+        if (this->board_ind[x] == y){ 
+            this->coup_gagnantAI.erase(this->coup_gagnantAI.begin() + i);
+            return x;
+        }
+    }    
+    for (int i =0; i<this->coup_gagnantHU.size(); i++){
+
+        int x = std::get<0>((this->coup_gagnantHU)[i]);
+        int y = std::get<1>((this->coup_gagnantHU)[i]);
+        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
+
+        //on regarde si les coup sont faisable.
+        if (this->board_ind[x] == y){ 
+            this->coup_gagnantHU.erase(this->coup_gagnantHU.begin() + i);
+            std::cout<<"coup_1 "<<this->coup_gagnantHU.size();
+            return x;
+        }
+    }
+    return -1;
+}
+
+Void State::next_state(){
     bool info;
     State result = State(*this);
-
-    //For theses cases retrieve the infos is useless. All cases are playable.
-    for(int i = 0; i < WIDTH; i++){
-        if(board_ind[i] < HEIGHT){
-            int gain = 0;
-            for(int iter =0; iter<20; iter++){
-                State next_state = State(*this);
-
-                while(next_state.getEnd() == NONE){
-                    int next = std::rand() % WIDTH;
-                    next_state.play(next, info);
-                }
-
-                if(next_state.getEnd()==AI_VICTORY){
-                    gain += 1;
-                }
-            }
-
-            if(max < gain){
-                max = gain;
-                choix = i;
-            }
-        }
-        
-    }
-
-    result.play(choix, info);
-
-    return result;
+    if (this->possible_coup_gagnant() >= 0){
+        this->play(this->possible_coup_gagnant(), info);zzzzzz
+    }else{
+    int next = std::rand() % 7;
+    result.play(next, info);}
 }
 
 end_e State::getEnd(){
@@ -132,15 +135,42 @@ player_e State::getPlayer(){
     return this->player;
 }
 
-std::tuple<int,int,int>  State::check_near_end(){
+void  State::check_near_end(){
     State state = State(*this);
     int x = this->last_played_x;
     int y = this->last_played_y;
-    if(std::get<0>(check_pos_lines(state,x,y))!= -1)return check_pos_lines(state,x,y);
-    if(std::get<0>(check_pos_columns(state,x,y))!= -1)return check_pos_columns(state,x,y);
-    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1)return check_pos_diags_1(state,x,y);
-    if(std::get<0>(check_pos_diags_2(state,x,y))!= -1)return check_pos_diags_2(state,x,y);
-    return std::make_tuple (-1,-1,-1);
+    if(std::get<0>(check_pos_lines(state,x,y))!= -1){
+        if(std::get<2>(check_pos_lines(state,x,y))== 2){
+            this->coup_gagnantAI.push_back(check_pos_lines(state,x,y));
+        }
+        if(std::get<2>(check_pos_lines(state,x,y))== 1){
+            this->coup_gagnantHU.push_back(check_pos_lines(state,x,y));
+            }
+    }
+    if(std::get<0>(check_pos_columns(state,x,y))!= -1){
+        if(std::get<2>(check_pos_columns(state,x,y))== 2){
+            this->coup_gagnantAI.push_back(check_pos_columns(state,x,y));
+        }
+        if(std::get<2>(check_pos_columns(state,x,y))== 1){
+            this->coup_gagnantHU.push_back(check_pos_columns(state,x,y));
+            }
+    }
+    if(std::get<0>(check_pos_diags_1(state,x,y))!= -1){
+        if(std::get<2>(check_pos_diags_1(state,x,y))== 2){
+            this->coup_gagnantAI.push_back(check_pos_diags_1(state,x,y));
+        }
+        if(std::get<2>(check_pos_diags_1(state,x,y))== 1){
+            this->coup_gagnantHU.push_back(check_pos_diags_1(state,x,y));
+            }
+    }
+    if(std::get<0>(check_pos_diags_2(state,x,y))!= -1){
+        if(std::get<2>(check_pos_diags_2(state,x,y))== 2){
+            this->coup_gagnantAI.push_back(check_pos_diags_2(state,x,y));
+        }
+        if(std::get<2>(check_pos_diags_2(state,x,y))== 1){
+            this->coup_gagnantHU.push_back(check_pos_diags_2(state,x,y));
+            }
+    }
 }
 
 void State::print_state(){

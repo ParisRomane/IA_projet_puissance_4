@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Node.h"
 #include <ctime>
+#include <vector>
 
 int develop_tree(Node root, int time, strat_e strategy){
     std::cout << "develop_tree :";
@@ -53,25 +54,7 @@ State player_turn(State cur_state){
     return next_state;
 }
 
-State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnant){
-    /*bool info;
-    State next_state = State(cur_state);
-    // Optimisation sur les coups gagnants.
-    for (int i =0; i<coup_gagnant->size(); i++){
-        int x = std::get<0>((*coup_gagnant)[i]);
-        int y = std::get<1>((*coup_gagnant)[i]);
-        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
-        //on regarde si les coup sont faisable.
-        if (next_state.board_ind[x] == y){ 
-            next_state.play(x,info);
-            coup_gagnant->erase(coup_gagnant->begin() + i);
-    std::cout<<"coup_1 "<<coup_gagnant->size();
-            return next_state;
-        }
-        
-    }
-    std::cout<<"coup_2 "<<coup_gagnant->size();
-    return next_state.next_states();*/
+State ai_turn(State cur_state){
 
     bool info;
 
@@ -79,21 +62,6 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
 
     Node root = Node(&cur_state);
     State next_state = State(cur_state);
-
-    for (int i =0; i<coup_gagnant->size(); i++){
-
-        int x = std::get<0>((*coup_gagnant)[i]);
-        int y = std::get<1>((*coup_gagnant)[i]);
-        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
-
-        //on regarde si les coup sont faisable.
-        if (next_state.board_ind[x] == y){ 
-            next_state.play(x,info);
-            coup_gagnant->erase(coup_gagnant->begin() + i);
-            std::cout<<"coup_1 "<<coup_gagnant->size();
-            return next_state;
-        }
-    }
 
     std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 
@@ -105,8 +73,6 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
 
 int main(int argc, char* argv[]){
 
-    std::vector<std::tuple<int,int,int>> coup_gagnant;
-    std::tuple<int,int,int> coup;
     State state = State(HUMAN);
     bool info;
 
@@ -116,14 +82,8 @@ int main(int argc, char* argv[]){
     state.print_state();
     while(end == NONE){
         i = (i + 1) % 2;
-        state = (i == 0) ? player_turn(state) : ai_turn(state,&coup_gagnant);
+        state = (i == 0) ? player_turn(state) : ai_turn(state);
 
-        // on regarde si le coup réalise/annule un coup gagnant : 
-        std::find(coup_gagnant.begin(), coup_gagnant.end(), coup) != coup_gagnant.end();
-        // regarde si le coup fait est un final ou une ligne de 3 avec un vide
-        // oui mais si un coup annule un coup ?
-        coup = state.check_near_end();
-        if (std::get<0>(coup)!=-1) coup_gagnant.push_back(coup);
         end = state.getEnd();
         state.print_state();
     }
