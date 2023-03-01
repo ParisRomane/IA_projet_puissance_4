@@ -75,8 +75,7 @@ void State::play(int column, bool &info){
 }
 
 int State::possible_coup_gagnant(){
-    std::cout<<"SIZE "<<this->coup_gagnantAI.size()<<" "<<this->coup_gagnantHU.size()<<"\n";
-    for (int i =0; i<this->coup_gagnantAI.size(); i++){
+    for (long unsigned int i =0; i<this->coup_gagnantAI.size(); i++){ // on fait ce coup en premier car l'IA veut gagner.
 
         int x = std::get<0>((this->coup_gagnantAI)[i]);
         int y = std::get<1>((this->coup_gagnantAI)[i]);
@@ -84,11 +83,10 @@ int State::possible_coup_gagnant(){
         //on regarde si les coup sont faisable.
         if (this->board_ind[x] == y){ 
             this->coup_gagnantAI.erase(this->coup_gagnantAI.begin() + i);
-            std::cout<<"yes ! \n";
             return x;
         }
     }    
-    for (int i =0; i<this->coup_gagnantHU.size(); i++){
+    for (long unsigned int i =0; i<this->coup_gagnantHU.size(); i++){
 
         int x = std::get<0>((this->coup_gagnantHU)[i]);
         int y = std::get<1>((this->coup_gagnantHU)[i]);
@@ -96,7 +94,6 @@ int State::possible_coup_gagnant(){
         //on regarde si les coup sont faisable.
         if (this->board_ind[x] == y){ 
             this->coup_gagnantHU.erase(this->coup_gagnantHU.begin() + i);
-            std::cout<<"yes ! \n";
             return x;
         }
     }

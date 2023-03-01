@@ -65,7 +65,7 @@ State ai_turn(State cur_state){
         return next_state;
     }
 
-    next_state.play(develop_tree(root, 100, ROBUST), info);
+    next_state.play(develop_tree(root, 1000, ROBUST), info);
 
     return next_state;
 }
@@ -73,7 +73,6 @@ State ai_turn(State cur_state){
 int main(int argc, char* argv[]){
 
     State state = State(HUMAN);
-    bool info;
 
     end_e end = NONE;
     int i = 1;
