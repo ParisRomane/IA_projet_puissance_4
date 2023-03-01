@@ -85,10 +85,8 @@ Node *Node::choose_child(){
     long unsigned int i = 0;
     float max = 0;
     Node *choosen_child = &this->children[0];
-
-    do{
-
-        Node *child = &this->children[i];
+        
+    while(i < this->children.size()){Node *child = &this->children[i];
 
         if(child->get_n() == 0){
             choosen_child = child;
@@ -102,7 +100,7 @@ Node *Node::choose_child(){
             choosen_child = &this->children[i];
         }
         i++;
-    }while(i < this->children.size());
+        }
 
     return choosen_child;
 }

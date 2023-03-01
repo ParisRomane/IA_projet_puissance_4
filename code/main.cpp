@@ -96,7 +96,7 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
         }
     }
 
-    next_state.play(develop_tree(root, 1000, ROBUST), info);
+    next_state.play(develop_tree(root, 400, ROBUST), info);
     return next_state;
 }
 
