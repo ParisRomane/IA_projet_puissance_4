@@ -86,9 +86,10 @@ int main(int argc, char* argv[]){
     }
     std::cout << end << std::endl;
     
-    if(end == AI_VICTORY)std::cout<<"LA MACHINE A GAGNÉE";
-    else if(end == HU_VICTORY)std::cout<<"VOUS AVEZ GAGNÉ";
-    else std::cout<<" ÉGALITÉE";
+    if(end == EQUALITY)std::cout<<" ÉGALITÉE";
+    else if (i == 0)std::cout<<"VOUS AVEZ GAGNÉ";
+    else std::cout<<"LA MACHINE A GAGNÉE";
+
 
     return EXIT_SUCCESS;
 }
