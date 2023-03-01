@@ -7,16 +7,17 @@
 #include <ctime>
 
 int develop_tree(Node root, int time, strat_e strategy){
-    std::cout << "develop_tree :";
 
     clock_t begin = clock();
     clock_t end = clock();
 
     State empty_state = State();
     Node best = Node(&empty_state);
+    long millis = 0;
     
     root.create_children();
-    while((end - begin) < time){    //Time in millis
+    while(millis < time){    //Time in millis
+        millis = (end -  begin) * 1000 / CLOCKS_PER_SEC;
         root.develop_node();
         end = clock();
     }
@@ -95,11 +96,7 @@ State ai_turn(State cur_state, std::vector<std::tuple<int,int,int>>* coup_gagnan
         }
     }
 
-    std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
-
-    next_state.play(develop_tree(root, 100, ROBUST), info);
-
-    std::cout << root.get_state()->getEnd() << " end for the cur_state..\n";
+    next_state.play(develop_tree(root, 1000, ROBUST), info);
     return next_state;
 }
 

@@ -1,6 +1,7 @@
 #include "State.h"
 #include <assert.h>
 #include <math.h>
+#include <cstdlib>
 
 #if !defined(NODE)
 

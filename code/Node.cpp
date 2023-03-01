@@ -1,5 +1,4 @@
 #include "Node.h"
-#include <iostream> //TEMP
 
 Node::Node(State* state){
     this->AI_turn = true;
@@ -22,14 +21,13 @@ Node::Node(Node *parent, State *state){
 }
 
 Node::~Node(){
-    for(long unsigned int i = 0; i < this->children.size(); i++){
+    /*for(long unsigned int i = 0; i < this->children.size(); i++){
        children[i].~Node(); 
     }
-    delete state;
+    delete state;*/
 }
 
 void Node::develop_node(){
-    std::cout << "develop_node"<< std::endl;
     //on arrive a un neud. on doit le developes
     if(this->n == 0 && this->children.size() == 0){ //leaf, not developed
         return this->rollout_node();
@@ -46,7 +44,6 @@ void Node::develop_node(){
 }
 
 void Node::backpropagate(end_e end){
-    std::cout << "backpropagate" << std::endl;
     int score = compute_score(end);
 
     Node* current = this;
@@ -79,13 +76,11 @@ bool Node::is_AI_turn(){
 
 float Node::UCB1(Node nod){
     assert(nod.n != 0);
-    std::cout << "UCB1" << (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n) <<std::endl;
 
     return (nod.t/nod.n) + std::sqrt(2*std::log((*nod.parent).n)/nod.n);
 }
 
 Node *Node::choose_child(){
-    std::cout << "choose_children" <<this->children.size()<< std::endl;
 
     long unsigned int i = 0;
     float max = 0;
@@ -113,7 +108,6 @@ Node *Node::choose_child(){
 }
 
 void Node::create_children(){
-    std::cout << "create_children" << std::endl;
 
     int action = 0;
     bool info = true;
@@ -135,13 +129,12 @@ void Node::create_children(){
             this->children.push_back(child);
         }
 
-        delete next;
+        //delete next;
         action ++;
     }
 }
 
 void Node::rollout_node(){
-    std::cout << "Rollout_node" << std::endl;
     bool info;
     State simulation = State(*this->state);
     while(simulation.getEnd() == NONE){
@@ -152,7 +145,6 @@ void Node::rollout_node(){
 }
 
 int Node::compute_score(end_e end){
-    std::cout << "Compute_score" << std::endl;
     
     if(end == NONE || end ==HU_VICTORY){
         return -1;
@@ -167,18 +159,15 @@ int Node::compute_score(end_e end){
 }
 
 int Node::choose_best(strat_e strategy){
-    std::cout<<"score"<<this->children.size();
     Node best = this->children[0];
     if (strategy == MAX) {
         for (long unsigned int i = 0; i<this->children.size(); i++){
-            std::cout<<this->children[i].get_t()<<"\n";
             if (this->children[i].get_t() >best.get_t()){
                 best = this->children[i];
             }
         }
     }else if (strategy == ROBUST) {
         for (long unsigned int i = 0; i<this->children.size(); i++){
-            std::cout<<this->children[i].get_n()<<"\n";
             if (this->children[i].get_n() >best.get_n()){
                 best = this->children[i];
             }
