@@ -1,5 +1,6 @@
 #include "structs.h"
 #include <vector>
+#include <tuple>
 
 #if !defined(STATE)
 #define STATE
@@ -15,13 +16,15 @@ class State{
         bool is_full();
 
     public:
+        std::vector<std::tuple<int,int,int>> coup_gagnantAI;
+        std::vector<std::tuple<int,int,int>> coup_gagnantHU;
 
         int board_ind[WIDTH];
         int board[HEIGHT*WIDTH];
 
         void play(int column, bool &info);
         
-        State next_states();
+        void next_state();
 
         end_e getEnd();
 
@@ -37,11 +40,11 @@ class State{
 
         int get_y(){return last_played_y;}
 
-        std::tuple<int,int,int> check_near_end();
+        void check_near_end();
 
         void print_state();
+
+        int possible_coup_gagnant();
 };
 
 #endif // STATE
-
-void PrintState(State state);

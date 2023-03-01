@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++17 -O2 -g -Wall
+CFLAGS = -std=c++17 -O3 -g -Wall
 
 LFLAGS = structs.h checks.h State.h Node.h
 SRCS = State.cpp Node.cpp main.cpp

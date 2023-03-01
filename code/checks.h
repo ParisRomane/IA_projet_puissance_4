@@ -69,8 +69,6 @@ bool check_columns(State state, int x, int y){
             if( state.board[(line)*WIDTH+col] == token){
                 acc++;
             } else {break;}
-            //test :
-            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
 
             line += up_or_down;
         }
@@ -90,6 +88,7 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
     int token = state.board[y*WIDTH+x]; 
     std::vector<int> bornes ;
     std::tuple<int,int,int> void_index (-1,-1,token);
+    std::tuple<int,int,int> old_void_index (-1,-1,token);
     //Est-ce qu'il viens completer une diagonale de 4 éléments ?
     for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){ 
         // initialisation :
@@ -102,17 +101,19 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
                 acc++;
             }else if( state.board[(line)*WIDTH+col] == VOID){
                 if (void_index != std::make_tuple (-1,-1,token)){
+                    old_void_index = void_index;
+                    void_index = std::make_tuple (-1,-1,token);
                     break;
                 }
                 void_index = std::make_tuple (col, line,token);
-            }  else {break;}
+            }  else {if(i==2) void_index = std::make_tuple (-1,-1,token); break;}
             col +=  right_or_left;
             line -= right_or_left;
         }
         bornes.push_back(acc) ;
     }
-    std::cout<<bornes[0]<<" "<<bornes[1]<<" t1\n";
     if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
+        if(std::get<0>(void_index) == -1)return old_void_index;
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -123,6 +124,7 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
     int token = state.board[y*WIDTH+x]; 
     std::vector<int> bornes ;
     std::tuple<int,int,int> void_index (-1,-1,token);
+    std::tuple<int,int,int> old_void_index (-1,-1,token);
     //Est-ce qu'il viens completer une diagonale de 4 éléments ?
     for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){  
         // initialisation :
@@ -135,17 +137,19 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
                 acc++;
             }else if( state.board[(line)*WIDTH+col] == VOID){
                 if (void_index != std::make_tuple (-1,-1,token)){
+                    old_void_index = void_index;
+                    void_index = std::make_tuple (-1,-1,token);
                     break;
                 }
                 void_index = std::make_tuple (col, line,token);
-            }  else {break;}
+            }  else {if(i==2) void_index = std::make_tuple (-1,-1,token); break;}
             col +=  right_or_left;
             line  +=  right_or_left;
         }
         bornes.push_back(acc) ;
     }
-    std::cout<<bornes[0]<<" "<<bornes[1]<<" t2\n";
     if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
+        if(std::get<0>(void_index) == -1)return old_void_index;
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -156,6 +160,7 @@ std::tuple<int,int,int>  check_pos_lines(State state, int x, int y){
     int token = state.board[y*WIDTH+x];
     int acc = 0;
     std::tuple<int,int,int> void_index (-1,-1,token);
+    std::tuple<int,int,int> old_void_index (-1,-1,token);
     //Est-ce qu'il viens completer une line horizonale de 4 éléments ?
     for ( int right_or_left = -1 ; right_or_left <= 1 ; right_or_left = right_or_left+2){ // orientation de la line
         int col = x;
@@ -165,14 +170,17 @@ std::tuple<int,int,int>  check_pos_lines(State state, int x, int y){
                 acc++;
             }else if( state.board[(line)*WIDTH+col] == VOID){
                 if (void_index != std::make_tuple (-1,-1,token)){
+                    old_void_index = void_index;
+                    void_index = std::make_tuple (-1,-1,token);
                     break;
                 }
                 void_index = std::make_tuple (col, line,token);
-            }  else {break;}
+            }  else {if(i==2) void_index = std::make_tuple (-1,-1,token); break;}
             col +=  right_or_left;
         }
     }
     if ( acc >= 4) { // si diagonale complète :
+        if(std::get<0>(void_index) == -1)return old_void_index;
         return void_index;
     }
     return std::make_tuple (-1,-1, token);
@@ -196,8 +204,6 @@ std::tuple<int,int,int> check_pos_columns(State state, int x, int y){
                 }
                 void_index = std::make_tuple (col, line,token);
             }  else {break;}
-            //test :
-            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
 
             line += up_or_down;
         }
