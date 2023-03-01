@@ -69,6 +69,8 @@ bool check_columns(State state, int x, int y){
             if( state.board[(line)*WIDTH+col] == token){
                 acc++;
             } else {break;}
+            //test :
+            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
 
             line += up_or_down;
         }
@@ -109,6 +111,7 @@ std::tuple<int,int,int> check_pos_diags_1(State state, int x, int y){ // haut ve
         }
         bornes.push_back(acc) ;
     }
+    std::cout<<bornes[0]<<" "<<bornes[1]<<" t1\n";
     if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
         return void_index;
     }
@@ -141,6 +144,7 @@ std::tuple<int,int,int> check_pos_diags_2(State state, int x, int y){ // bas ver
         }
         bornes.push_back(acc) ;
     }
+    std::cout<<bornes[0]<<" "<<bornes[1]<<" t2\n";
     if ( bornes[0] + bornes[1] >= 4) { // si diagonale complète :
         return void_index;
     }
@@ -192,6 +196,9 @@ std::tuple<int,int,int> check_pos_columns(State state, int x, int y){
                 }
                 void_index = std::make_tuple (col, line,token);
             }  else {break;}
+            //test :
+            //std::cout << state.board[(line)*WIDTH+col]<< " acc:" <<acc << " x:" << col << " y:"<< line <<"\n";
+
             line += up_or_down;
         }
     }
