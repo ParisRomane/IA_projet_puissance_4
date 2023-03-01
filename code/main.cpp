@@ -60,16 +60,13 @@ State ai_turn(State cur_state){
     Node root = Node(&cur_state);
     State next_state = State(cur_state);
     int coup = next_state.possible_coup_gagnant();
-        std::cout<<coup<<"\n";
     if(coup != -1){
         next_state.play(coup,info);
         return next_state;
     }
-    std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 
     next_state.play(develop_tree(root, 100, ROBUST), info);
 
-    std::cout << root.get_state()->getEnd() << " end for the cur_state..\n";
     return next_state;
 }
 
@@ -90,5 +87,9 @@ int main(int argc, char* argv[]){
     }
     std::cout << end << std::endl;
     
+    if(end == AI_VICTORY)std::cout<<"LA MACHINE A GAGNÉE";
+    else if(end == HU_VICTORY)std::cout<<"VOUS AVEZ GAGNÉ";
+    else std::cout<<" ÉGALITÉE";
+
     return EXIT_SUCCESS;
 }
