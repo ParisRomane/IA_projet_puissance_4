@@ -24,7 +24,7 @@ class State{
 
         void play(int column, bool &info);
         
-        void next_s();
+        void next_state();
 
         end_e getEnd();
 
@@ -48,5 +48,3 @@ class State{
 };
 
 #endif // STATE
-
-void PrintState(State state);

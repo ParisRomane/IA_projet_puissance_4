@@ -22,10 +22,10 @@ Node::Node(Node *parent, State *state){
 }
 
 Node::~Node(){
-    for(long unsigned int i = 0; i < this->children.size(); i++){
+    /*for(long unsigned int i = 0; i < this->children.size(); i++){
        children[i].~Node(); 
     }
-    delete state;
+    delete state;*/
 }
 
 void Node::develop_node(){
@@ -135,7 +135,7 @@ void Node::create_children(){
             this->children.push_back(child);
         }
 
-        delete next;
+        //delete next;
         action ++;
     }
 }
@@ -145,8 +145,7 @@ void Node::rollout_node(){
     bool info;
     State simulation = State(*this->state);
     while(simulation.getEnd() == NONE){
-        int next = std::rand() % 7;
-        simulation.play(next, info);
+        simulation.next_state();
     }
     this->backpropagate(simulation.getEnd());
 }
@@ -167,11 +166,10 @@ int Node::compute_score(end_e end){
 }
 
 int Node::choose_best(strat_e strategy){
-    std::cout<<"score"<<this->children.size();
     Node best = this->children[0];
     if (strategy == MAX) {
         for (long unsigned int i = 0; i<this->children.size(); i++){
-            std::cout<<this->children[i].get_t()<<"\n";
+            std::cout<<this->children[i].get_n()<<"\n";
             if (this->children[i].get_t() >best.get_t()){
                 best = this->children[i];
             }

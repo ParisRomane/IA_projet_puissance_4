@@ -10,7 +10,8 @@ State::State(){
             this->board[c*HEIGHT+l] = 0;
         }
     }
-
+    this->coup_gagnantAI = {};
+    this->coup_gagnantHU = {};
     player = AI;
     last_played_x = 0;
     last_played_y = 0;
@@ -23,6 +24,8 @@ State::State(player_e player){
             this->board[c*HEIGHT+l] = 0;
         }
     }
+    this->coup_gagnantAI = {};
+    this->coup_gagnantHU = {};
     this->player = player;
     last_played_x = -1;
     last_played_y = -1;
@@ -35,7 +38,8 @@ State::State(const State &old_state){
             this->board[c*HEIGHT+l] = old_state.board[c*HEIGHT+l];
         }
     }
-
+    this->coup_gagnantAI = std::vector(old_state.coup_gagnantAI);
+    this->coup_gagnantHU = std::vector(old_state.coup_gagnantHU);
     this->player = old_state.player;
     this->last_played_x = old_state.last_played_x;
     this->last_played_y = old_state.last_played_y;
@@ -63,7 +67,7 @@ void State::play(int column, bool &info){
 
         this->last_played_x = column;
         this->last_played_y = board_ind[column]-1;
-        //std::cout << getEnd() <<" \n";
+        this->check_near_end();
     }else{
 
         info = false;
@@ -71,15 +75,16 @@ void State::play(int column, bool &info){
 }
 
 int State::possible_coup_gagnant(){
+    std::cout<<"SIZE "<<this->coup_gagnantAI.size()<<" "<<this->coup_gagnantHU.size()<<"\n";
     for (int i =0; i<this->coup_gagnantAI.size(); i++){
 
         int x = std::get<0>((this->coup_gagnantAI)[i]);
         int y = std::get<1>((this->coup_gagnantAI)[i]);
-        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
 
         //on regarde si les coup sont faisable.
         if (this->board_ind[x] == y){ 
             this->coup_gagnantAI.erase(this->coup_gagnantAI.begin() + i);
+            std::cout<<"yes ! \n";
             return x;
         }
     }    
@@ -87,26 +92,25 @@ int State::possible_coup_gagnant(){
 
         int x = std::get<0>((this->coup_gagnantHU)[i]);
         int y = std::get<1>((this->coup_gagnantHU)[i]);
-        std::cout<<"coup_gagnant"<<x<<" "<<y<<"\n";
 
         //on regarde si les coup sont faisable.
         if (this->board_ind[x] == y){ 
             this->coup_gagnantHU.erase(this->coup_gagnantHU.begin() + i);
-            std::cout<<"coup_1 "<<this->coup_gagnantHU.size();
+            std::cout<<"yes ! \n";
             return x;
         }
     }
     return -1;
 }
 
-Void State::next_state(){
+void State::next_state(){
     bool info;
-    State result = State(*this);
-    if (this->possible_coup_gagnant() >= 0){
-        this->play(this->possible_coup_gagnant(), info);zzzzzz
+    int coup = this->possible_coup_gagnant();
+    if (coup >= 0){
+        this->play(coup, info);
     }else{
-    int next = std::rand() % 7;
-    result.play(next, info);}
+        int next = std::rand() % 7;
+        this->play(next, info);}
 }
 
 end_e State::getEnd(){

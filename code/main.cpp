@@ -44,7 +44,6 @@ State player_turn(State cur_state){
         }
 
         next_state.play(stoi(column), info);
-
         if(!info){
             std::cout << "That move is impossible." << std::endl << std::endl;
         }
@@ -58,11 +57,14 @@ State ai_turn(State cur_state){
 
     bool info;
 
-    std::cout<<cur_state.get_x()<<"\n";
-
     Node root = Node(&cur_state);
     State next_state = State(cur_state);
-
+    int coup = next_state.possible_coup_gagnant();
+        std::cout<<coup<<"\n";
+    if(coup != -1){
+        next_state.play(coup,info);
+        return next_state;
+    }
     std::cout<< root.get_state()->getEnd() << " end for the cur_state..\n";
 
     next_state.play(develop_tree(root, 100, ROBUST), info);
@@ -83,7 +85,6 @@ int main(int argc, char* argv[]){
     while(end == NONE){
         i = (i + 1) % 2;
         state = (i == 0) ? player_turn(state) : ai_turn(state);
-
         end = state.getEnd();
         state.print_state();
     }
